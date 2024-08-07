@@ -47,7 +47,7 @@ typedef struct s_data
 void	init_map(t_data *data);
 void	init_mlx(t_data *data);
 void	render_minimap(t_data *data);
-
+void	init_player(t_data *data);
 
 
 #endif

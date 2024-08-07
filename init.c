@@ -29,6 +29,10 @@ void	init_map(t_data *data)
 	data->map[11] = ft_strdup("11000001110101011111011110N0111");
 	data->map[12] = ft_strdup("11110111 1110101 101111010001");
 	data->map[13] = ft_strdup("11111111 1111111 111111111111");
+}
+
+void	init_player(t_data *data)
+{
 	data->player_x = 11;
 	data->player_y = 26;
 	data->player_dir_x = -1;
@@ -54,7 +58,7 @@ void render_minimap(t_data *data)
 		j = 0;
         while (j < ft_strlen(data->map[i]))
 		{
-            int color = data->map[i][j] == '1' ? 0xFFFFFF : 0x0000FF;
+            int (color) = data->map[i][j] == '1' ? 0xFFFFFF : 0x0000FF;
 			char (c) = data->map[i][j];
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 				color = 0x00FF00;

@@ -29,7 +29,7 @@
 11111111 1111111 111111111111
 */
 
-void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
+void    draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
 {
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
@@ -40,9 +40,10 @@ void draw_line(t_data *data, int x0, int y0, int x1, int y1, int color)
     while (1)
 	{
         mlx_pixel_put(data->mlx_ptr, data->win_ptr, x0, y0, color);
-        if (x0 == x1 && y0 == y1) break;
+        if (x0 == x1 && y0 == y1)
+            break;
         int e2 = 2 * err;
-        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 > -dy){ err -= dy; x0 += sx; }
         if (e2 < dx) { err += dx; y0 += sy; }
 	}
 }
@@ -145,6 +146,7 @@ int	main(void)
 
 	init_mlx(&data);
 	init_map(&data);
+    init_player(&data);
 	render_minimap(&data);
 	render_frame(&data);
 	mlx_loop(data.mlx_ptr);
