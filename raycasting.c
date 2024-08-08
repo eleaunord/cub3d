@@ -29,6 +29,7 @@ void	init_var_rays(t_data *data, int x)
 void	draw_game(t_data *data, int x)
 {
 	int	color;
+	int	y;
 
 	int (draw_start) = -(data->rays->line_height) / 2 + WIN_HEIGHT / 2;
 	if (draw_start < 0)
@@ -40,10 +41,21 @@ void	draw_game(t_data *data, int x)
 		color = 0xFF0000;
 	else
 		color = 0x00FF00;
-	int (y) = draw_start;
+	y = 0;
+	while (y < draw_start)
+	{
+		data->img_data[y * (data->size_line / 4) + x] = data->ceiling_color;
+		y++;
+	}
+	y = draw_start;
 	while (y < draw_end)
 	{
 		data->img_data[y * WIN_WIDTH + x] = color;
+		y++;
+	}
+	while (y < WIN_HEIGHT)
+	{
+		data->img_data[y * (data->size_line / 4) + x] = data->floor_color;
 		y++;
 	}
 }

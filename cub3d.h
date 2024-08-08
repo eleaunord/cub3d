@@ -55,6 +55,8 @@ typedef struct s_data
 	int				*img_data;
 	char			**map;
 	int				bpp;
+	int				ceiling_color;
+	int				floor_color;
 	int				endian;
 	int				size_line;
 	double			player_x;

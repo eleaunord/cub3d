@@ -47,13 +47,17 @@ void	init_mlx(t_data *data)
 	data->win_ptr
 		= mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	data->img_ptr = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	data->img_data = (int *)mlx_get_data_addr(data->img_ptr, &data->bpp, &data->size_line, &data->endian);
+	data->img_data = (int *)mlx_get_data_addr(data->img_ptr, &data->bpp,
+			&data->size_line, &data->endian);
 	data->rays = malloc(sizeof(t_raycasting));
+	data->ceiling_color = 0x87CEEB;
+	data->floor_color = 0x8B4513;
 }
 
 void	render_minimap(t_data *data)
 {
 	int		color;
+	int		pixel_pos;
 	char	c;
 
 	int (i) = 0;
@@ -78,7 +82,8 @@ void	render_minimap(t_data *data)
 				y = 0;
 				while (y < TILE_SIZE)
 				{
-					int pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4) + (j * TILE_SIZE + x);
+					pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4)
+						+ (j * TILE_SIZE + x);
 					data->img_data[pixel_pos] = color;
 					y++;
 				}

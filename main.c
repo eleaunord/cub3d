@@ -45,8 +45,8 @@ int	main(void)
 	init_mlx(&data);
 	init_map(&data);
 	init_player(&data);
-	render_minimap(&data);
 	render_frame(&data);
+	render_minimap(&data);
 	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img_ptr, 0, 0);
 	mlx_loop(data.mlx_ptr);
 }
