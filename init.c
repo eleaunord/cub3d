@@ -37,45 +37,55 @@ void	init_player(t_data *data)
 	data->player_y = 26;
 	data->player_dir_x = -1;
 	data->player_dir_y = 0;
-    data->plane_x = 0;
-    data->plane_y = 0.66;
+	data->plane_x = 0;
+	data->plane_y = 0.66;
 }
 
 void	init_mlx(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
-    data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+	data->win_ptr
+		= mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+	data->img_ptr = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	data->img_data = (int *)mlx_get_data_addr(data->img_ptr, &data->bpp, &data->size_line, &data->endian);
+	data->rays = malloc(sizeof(t_raycasting));
 }
 
-void render_minimap(t_data *data)
+void	render_minimap(t_data *data)
 {
-	int i = 0;
-	int j = 0;
-	int x = 0;
-	int y = 0;
-    while (i < 14)
+	int		color;
+	char	c;
+
+	int (i) = 0;
+	int (j) = 0;
+	int (x) = 0;
+	int (y) = 0;
+	while (i < 14)
 	{
 		j = 0;
-        while (j < ft_strlen(data->map[i]))
+		while (j < ft_strlen(data->map[i]))
 		{
-            int (color) = data->map[i][j] == '1' ? 0xFFFFFF : 0x0000FF;
-			char (c) = data->map[i][j];
+			if (data->map[i][j] == '1')
+				color = 0xFFFFFF;
+			else
+				color = 0x0000FF;
+			c = data->map[i][j];
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 				color = 0x00FF00;
-			
 			x = 0;
-            while (x < TILE_SIZE)
+			while (x < TILE_SIZE)
 			{
 				y = 0;
-                while (y < TILE_SIZE)
+				while (y < TILE_SIZE)
 				{
-                    mlx_pixel_put(data->mlx_ptr, data->win_ptr, j * TILE_SIZE + x, i * TILE_SIZE + y, color);
+					int pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4) + (j * TILE_SIZE + x);
+					data->img_data[pixel_pos] = color;
 					y++;
-                }
+				}
 				x++;
-            }
+			}
 			j++;
-        }
+		}
 		i++;
-    }
+	}
 }

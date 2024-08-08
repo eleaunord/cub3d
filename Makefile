@@ -36,6 +36,7 @@ LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
 SRC_PATH = ./
 SRC		= 	main.c \
 			init.c \
+			raycasting.c \
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 
