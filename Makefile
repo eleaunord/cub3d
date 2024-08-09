@@ -37,6 +37,7 @@ SRC_PATH = ./
 SRC		= 	main.c \
 			init.c \
 			raycasting.c \
+			move_player.c \
 
 SRCS	= $(addprefix $(SRC_PATH), $(SRC))
 

@@ -27,6 +27,8 @@
 # define WIN_HEIGHT 1080
 # define TILE_SIZE 8
 # define FOV 60 * (M_PI / 180)
+# define MOVE_SPEED 0.05
+# define ROT_SPEED 0.05
 
 typedef struct s_raycasting
 {
@@ -47,6 +49,16 @@ typedef struct s_raycasting
 	int		line_height;
 }	t_raycasting;
 
+typedef struct s_player
+{
+	double			player_x;
+	double			player_y;
+	double			player_dir_x;
+	double			player_dir_y;
+	double			plane_x;
+	double			plane_y;
+}	t_player;
+
 typedef struct s_data
 {
 	void			*mlx_ptr;
@@ -59,13 +71,8 @@ typedef struct s_data
 	int				floor_color;
 	int				endian;
 	int				size_line;
-	double			player_x;
-	double			player_y;
-	double			player_dir_x;
-	double			player_dir_y;
-	double			plane_x;
-	double			plane_y;
 	t_raycasting	*rays;
+	t_player		player;
 }	t_data;
 
 //fonctions
@@ -73,6 +80,7 @@ void	init_map(t_data *data);
 void	init_mlx(t_data *data);
 void	render_minimap(t_data *data);
 void	init_player(t_data *data);
+int		handle_keypress(int keycode, t_data *data);
 
 void	cast_rays(t_data *data, int x);
 

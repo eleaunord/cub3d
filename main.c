@@ -38,6 +38,15 @@ void	render_frame(t_data *data)
 	}
 }
 
+int	render_loop(t_data *data)
+{
+	mlx_clear_window(data->mlx_ptr, data->win_ptr);
+	render_frame(data);
+	render_minimap(data);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
+	return (0);
+}
+
 int	main(void)
 {
 	t_data		data;
@@ -45,8 +54,7 @@ int	main(void)
 	init_mlx(&data);
 	init_map(&data);
 	init_player(&data);
-	render_frame(&data);
-	render_minimap(&data);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img_ptr, 0, 0);
+	mlx_hook(data.win_ptr, 2, 1L<<0, handle_keypress, &data);
+	mlx_loop_hook(data.mlx_ptr, render_loop, &data);
 	mlx_loop(data.mlx_ptr);
 }

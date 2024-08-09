@@ -33,12 +33,12 @@ void	init_map(t_data *data)
 
 void	init_player(t_data *data)
 {
-	data->player_x = 11;
-	data->player_y = 26;
-	data->player_dir_x = -1;
-	data->player_dir_y = 0;
-	data->plane_x = 0;
-	data->plane_y = 0.66;
+	data->player.player_x = 11;
+	data->player.player_y = 26;
+	data->player.player_dir_x = -1;
+	data->player.player_dir_y = 0;
+	data->player.plane_x = 0;
+	data->player.plane_y = 0.66;
 }
 
 void	init_mlx(t_data *data)
