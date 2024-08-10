@@ -47,13 +47,19 @@ int	render_loop(t_data *data)
 	return (0);
 }
 
-int	main(void)
+int main(int argc, char const **argv)
 {
 	t_data		data;
+
+	if (check_args(argc, argv) != TRUE)
+		error_msg("usage: ./cub3d <path/to/map.cub>", EXIT_FAILURE);
 
 	init_mlx(&data);
 	init_map(&data);
 	init_player(&data);
+
+	parse_map(&data, argv[1]);
+
 	mlx_hook(data.win_ptr, 2, 1L<<0, handle_keypress, &data);
 	mlx_loop_hook(data.mlx_ptr, render_loop, &data);
 	mlx_loop(data.mlx_ptr);

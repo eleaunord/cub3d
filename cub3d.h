@@ -30,6 +30,16 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.05
 
+typedef enum s_identifier
+{
+	N,
+	S,
+	E,
+	W,
+	F,
+	C
+} t_identifier;
+
 typedef struct s_raycasting
 {
 	double	camera_x;
@@ -66,6 +76,13 @@ typedef struct s_data
 	void			*img_ptr;
 	int				*img_data;
 	char			**map;
+	int				fd;
+	char			*no;
+	char			*so;
+	char *we;
+	char *ea;
+	char *sp;
+	int				error;
 	int				bpp;
 	int				ceiling_color;
 	int				floor_color;
