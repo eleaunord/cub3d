@@ -51,11 +51,13 @@ void	init_game(t_data *game)
 {
 	game->we = NULL;
 	game->ea = NULL;
-	game->sp = NULL;
+	game->so = NULL;
 	game->line = NULL;
 	game->line_tmp = NULL;
 	game->ceiling_color = 0;
 	game->floor_color = 0;
+	game->map_columns = 0;
+	game->map_rows = 0;
 	game->fd = 0;
 }
 

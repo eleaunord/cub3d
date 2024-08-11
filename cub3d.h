@@ -83,9 +83,10 @@ typedef struct s_data
 	char			*so;
 	char *we;
 	char *ea;
-	char *sp;
 	char *line;
 	char *line_tmp;
+	int map_columns;
+	int map_rows;
 	int				error;
 	int				bpp;
 	int				ceiling_color;

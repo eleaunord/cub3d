@@ -62,7 +62,8 @@ bool is_empty_line(char *line)
 {
     while (*line != '\0')
     {
-        if (*line != '\n' && *line != '\r')
+        // Check for spaces, tabs, newline, and carriage return
+        if (*line != ' ' && *line != '\t' && *line != '\n' && *line != '\r')
             return (false);
         line++;
     }

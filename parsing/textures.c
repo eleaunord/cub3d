@@ -1,5 +1,16 @@
 #include "cub3d.h"
 
+static void set_direction(t_data *game, char *path, t_identifier direction)
+{
+    if (direction == N)
+        game->no = path;
+    else if (direction == S)
+        game->so = path;
+    else if (direction == W)
+        game->we = path;
+    else if (direction == E)
+        game->ea = path;
+}
 void get_path_to_texture(t_identifier direction, char *line, t_data *game)
 {
     char *path;
@@ -22,6 +33,5 @@ void get_path_to_texture(t_identifier direction, char *line, t_data *game)
     if (fd < 0)
         game->error = 7;
     close(fd);
-    //
-    //set_player_direction(game, path, direction);
+    set_direction(game, path, direction);
 }
