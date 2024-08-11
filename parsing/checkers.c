@@ -1,23 +1,23 @@
 
 #include "cub3d.h"
 
-bool check_args(int argc, char **argv)
+bool check_args(int argc, const char **argv)
 {
     int i;
-    char *extension;
+    const char *extension;
 
     if (argc != 2 || !argv || !(argv[1]))
-        return (FALSE);
+        return (false);
     extension = argv[1];
     i = ft_strlen(extension);
     if (i < 5)
-        return (FALSE);
+        return (false);
     if (!(extension[i - 1] == 'b' &&
           extension[i - 2] == 'u' &&
           extension[i - 3] == 'c' &&
           extension[i - 4] == '.'))
-        return (FALSE);
-    return (TRUE);
+        return (false);
+    return (true);
 }
 
 bool is_already_loaded(t_data *game, t_identifier elem)
@@ -36,7 +36,7 @@ bool is_already_loaded(t_data *game, t_identifier elem)
         return (true);
     return (false);
 }
-int is_xpm(char *path, t_data *game)
+int is_xpm(char *path)
 {
     int len;
     char *filename;
@@ -50,4 +50,21 @@ int is_xpm(char *path, t_data *game)
     if (len <= 4 || ft_strcmp(filename + len - 4, ".xpm") != 0)
         return (1);
     return (0);
+}
+int is_space(char c)
+{
+    if (c == ' ' || (c >= 9 && c <= 13))
+        return (1);
+    return (0);
+}
+
+bool is_empty_line(char *line)
+{
+    while (*line != '\0')
+    {
+        if (*line != '\n' && *line != '\r')
+            return (false);
+        line++;
+    }
+    return (true);
 }

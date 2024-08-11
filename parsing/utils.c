@@ -1,21 +1,5 @@
 #include "cub3d.h"
 
-int count_commas(char *str, int *i)
-{
-    int i;
-    int count;
-
-    i = 0;
-    count = 0;
-    while (str[i])
-    {
-        if (str[i] == ',')
-            count++;
-        i++;
-    }
-    return (count);
-}
-
 int is_number(char *str)
 {
     int i;
@@ -36,7 +20,7 @@ int is_number(char *str)
     i = 0;
     while (str[i] && str[i] == ' ')
         i++;
-    if (ft_strlen(str) == (size_t)i)
+    if (ft_strlen(str) == i)
         return (0);
     return (1);
 }

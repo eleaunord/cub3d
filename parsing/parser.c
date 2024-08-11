@@ -17,44 +17,46 @@ void get_textures_and_colors(char *line, t_data *game)
     else if (line && line[0] != 'N' && line[0] != 'S' && line[0] != 'E' && line[0] != 'W' && line[0] != 'F' && line[0] != 'C')
         error_msg(game, "Invalid identifier format.\n", EXIT_FAILURE);
 }
-
-static void route_lines(t_game *game, char *line)
+static void route_lines(t_data *game, char *line)
 {
     game->line = NULL;
     if (ft_strchr(line, '.') || ft_strchr(line, ','))
         game->line = ft_strtrim(line, " \t\r");
     game->line_tmp = line;
-    parse_textures_and_colors(game, game->line);
+    get_textures_and_colors(game->line, game);
     game->line_tmp = NULL;
     if (game->line)
         free(game->line);
-    else if ((line[0] == '1' || line[0] == ' ') &&
-             (all_textures_and_colors_set(game)))
-        get_map_size(game, line);
+    // else if ((line[0] == '1' || line[0] == ' ') &&
+    //          (all_textures_and_colors_set(game)))
+    //     get_map_size(game, line);
     else if (!is_empty_line(line))
     {
         free(line);
         close(game->fd);
-        error_msg(game, "Invalid line in input file.\n", EXIT_FAILURE);
+        error_msg(game, "Invalid line in input.\n", EXIT_FAILURE);
     }
     free(line);
 }
 
-void parse_file(t_game *game, char *file)
+void parse_file(t_data *game, const char *file)
 {
     char *line;
     char *tmp_line;
 
+    line = NULL;
     game->fd = open(file, O_RDONLY);
     if (game->fd < 0)
         error_msg(game, "Could not open map file.\n", EXIT_FAILURE);
     line = get_next_line(game->fd);
+    
     while (line != NULL)
     {
+        //printf("line : %s\n", tmp_line);
         tmp_line = ft_strtrim(line, "\r\n");
+        //printf("temp : %s\n", tmp_line);
         free(line);
         route_lines(game, tmp_line);
-        free(tmp_line);
         line = get_next_line(game->fd);
     }
     close(game->fd);

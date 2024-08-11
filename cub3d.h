@@ -22,6 +22,8 @@
 # include <X11/keysym.h>
 # include <X11/X.h>
 # include <math.h>
+# include <stdbool.h>
+# include "get_next_line/get_next_line.h"
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
@@ -82,6 +84,8 @@ typedef struct s_data
 	char *we;
 	char *ea;
 	char *sp;
+	char *line;
+	char *line_tmp;
 	int				error;
 	int				bpp;
 	int				ceiling_color;
@@ -100,5 +104,17 @@ void	init_player(t_data *data);
 int		handle_keypress(int keycode, t_data *data);
 
 void	cast_rays(t_data *data, int x);
+
+
+// parsing
+int error_msg(t_data *game, char *mess, int num);
+bool check_args(int argc, const char **argv);
+bool is_already_loaded(t_data *game, t_identifier elem);
+int is_xpm(char *path);
+void get_color_code(t_identifier color, char *line, t_data *game);
+void get_path_to_texture(t_identifier direction, char *line, t_data *game);
+void parse_file(t_data *game, const char *file);
+int is_space(char c);
+bool is_empty_line(char *line);
 
 #endif

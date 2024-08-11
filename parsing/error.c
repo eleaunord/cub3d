@@ -1,8 +1,9 @@
 
 #include "cub3d.h"
 
-void error_msg(t_data *game, char *mess, int num)
+int error_msg(t_data *game, char *mess, int status)
 {
+    (void)game; // free everything later
     ft_putstr_fd("cub3D: Error", 2);
     if (mess)
     {
@@ -10,5 +11,5 @@ void error_msg(t_data *game, char *mess, int num)
         ft_putstr_fd(mess, 2);
     }
     ft_putstr_fd("\n", 2);
-    return (num);
+    exit(status);
 }
