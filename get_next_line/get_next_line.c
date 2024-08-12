@@ -3,118 +3,147 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/12 11:01:22 by marvin            #+#    #+#             */
-/*   Updated: 2024/04/05 16:46:08 by eleroty          ###   ########.fr       */
+/*   Created: 2023/11/21 14:38:12 by rrisseli          #+#    #+#             */
+/*   Updated: 2024/06/13 01:51:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-char *get_leftover(char *memory)
-{
-    char *leftover;
-    size_t jump;
-    size_t len;
-
-    len = ft_strclen(memory, '\0');
-    jump = ft_strclen(memory, '\n');
-    if (memory[jump] == '\n')
-        jump++;
-    leftover = ft_strndup(memory + jump, len - jump + 1);
-    if (!leftover)
-        return (NULL);
-    free(memory);
-    return (leftover);
-}
-
-char *get_line(char *memory)
+char *get_next_line(int fd, int n)
 {
     char *line;
-    size_t len;
+    static char *buffer;
 
-    len = ft_strclen(memory, '\n');
-    if (memory[len] == '\n')
-        len++;
-    line = ft_strndup(memory, len);
+    if (n == 1)
+    {
+        free(buffer);
+        buffer = NULL;
+        return (NULL);
+    }
+    if (fd < 0 || BUFFER_SIZE1 <= 0)
+        return (NULL);
+
+    buffer = ft_readline(fd, buffer);
+    if (!buffer)
+        return (NULL);
+
+    line = ft_getline(buffer);
+    buffer = ft_buffertrim(buffer);
+
+    return (line);
+}
+
+// fonction pour pouvoir retrouver le premier caractere
+// apres le \n dans mon buffer
+// allou la memoire avec la taille pour stocker la partie du buffer après le \n.
+// deuxieme boucle pour copier le reste du buffer dans line.
+// free buffer + return line
+char *ft_buffertrim(char *buffer)
+{
+    size_t buffer_i = 0;
+    size_t line_i = 0;
+    char *line;
+
+    if (!buffer)
+        return (NULL);
+
+    while (buffer[buffer_i] != '\n' && buffer[buffer_i])
+        buffer_i++;
+
+    if (!buffer[buffer_i])
+    {
+        free(buffer);
+        return (NULL);
+    }
+
+    line = ft_calloc(ft_strlen(buffer) - buffer_i, sizeof(char));
+    if (!line)
+    {
+        free(buffer);
+        return (NULL);
+    }
+
+    buffer_i++;
+    while (buffer[buffer_i])
+        line[line_i++] = buffer[buffer_i++];
+
+    free(buffer);
+    return (line);
+}
+
+// prend mon buffer precedent et cherche la position du \n
+// une fois trouver on peut allouer la memoire avec i donc taille jusqu'au \n
+// on copie buffer dans line et on return line
+char *ft_getline(char *buffer)
+{
+    char *line;
+    size_t i = 0;
+
+    if (!buffer || !buffer[0])
+        return (NULL);
+
+    while (buffer[i] != '\n' && buffer[i])
+        i++;
+
+    line = ft_calloc(i + 2, sizeof(char));
     if (!line)
         return (NULL);
+
+    for (size_t j = 0; j < i; j++)
+        line[j] = buffer[j];
+
+    if (buffer[i] == '\n')
+        line[i] = '\n';
+
     return (line);
 }
 
-char *store_chunks(int fd, char *memory)
+// Alloue la memoire pour stocker dans read_buffer
+// cherche un retour a la ligne dans mon buffer
+// ajoute mon temp buffer a mon buffer
+// free le temp buffer et recomence tant qu'on trouve pas de \n
+// free en sortant de la boucle et return buffer
+char *ft_readline(int fd, char *buffer)
 {
-    char *chunk;
-    ssize_t bytes;
+    char *temp_buffer;
+    char *read_buffer;
+    ssize_t bytes_read;
 
-    bytes = 1;
-    chunk = (char *)malloc(BUFFER_SIZE + 1);
-    if (!chunk)
-        return (NULL);
-    while (bytes > 0 && !ft_strchr_mod(memory, '\n'))
+    if (!buffer)
+        buffer = ft_calloc(1, sizeof(char));
+
+    read_buffer = ft_calloc(BUFFER_SIZE1 + 1, sizeof(char));
+    if (!read_buffer)
     {
-        bytes = read(fd, chunk, BUFFER_SIZE);
-        if (bytes == 0)
-            break;
-        if (bytes == -1)
+        free(buffer);
+        return (NULL);
+    }
+
+    bytes_read = 1;
+    while (!ft_strchr(buffer, '\n') && bytes_read > 0)
+    {
+        bytes_read = read(fd, read_buffer, BUFFER_SIZE1);
+        if (bytes_read == -1)
         {
-            free(chunk);
+            free(read_buffer);
+            free(buffer);
             return (NULL);
         }
-        chunk[bytes] = '\0';
-        memory = ft_strjoin_mod(memory, chunk);
+        read_buffer[bytes_read] = '\0';
+        temp_buffer = ft_strjoin(buffer, read_buffer);
+        free(buffer);
+        buffer = temp_buffer;
+
+        if (!buffer)
+        {
+            free(read_buffer);
+            return (NULL);
+        }
     }
-    free(chunk);
-    if (ft_strclen(memory, '\0') > 0)
-        return (memory);
-    return (NULL);
+
+    free(read_buffer);
+    return (buffer);
 }
-
-char *get_next_line(int fd)
-{
-    static char *memory;
-    char *line;
-
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
-    memory = store_chunks(fd, memory);
-    if (!memory)
-        return (NULL);
-    line = get_line(memory);
-    memory = get_leftover(memory);
-    if (!memory[0])
-    {
-        free(memory);
-        memory = NULL;
-    }
-    return (line);
-}
-
-/*
-void print_chunk(char *chunk, size_t n)
-{
-    for(size_t i = 0; i < n; i++)
-        printf("%zu - 0x%02X = %c\n", i + 1, chunk[i], chunk[i]);
-}
- */
-/*
-int main(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-
-    int fd;
-    if((fd = open(argv[1], O_RDONLY)) == -1)
-        return (-1);
-
-    char *res;
-
-    res = get_next_line(fd);
-    while (res)
-    {
-        puts(res);
-        free(res);
-        res = get_next_line(fd);
-    }
-} */

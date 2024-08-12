@@ -124,7 +124,6 @@ static void get_map_line(t_data *game, char *line)
         free(line);
     }
 }
-
 void process_map(t_data *game, const char *file)
 {
     char *line;
@@ -133,6 +132,7 @@ void process_map(t_data *game, const char *file)
     game->map = ft_calloc(game->map_rows, sizeof(char *));
     if (!game->map)
         error_msg(game, "Memory allocation failed for map.\n", EXIT_FAILURE);
+
     game->fd = open(file, O_RDONLY);
     if (game->fd < 0)
         error_msg(game, "Could not open map file.\n", EXIT_FAILURE);
@@ -141,14 +141,33 @@ void process_map(t_data *game, const char *file)
     while (line != NULL)
     {
         tmp_line = ft_strtrim(line, "\r\n");
+        free(line);
+
         if (tmp_line == NULL)
             error_msg(game, "Memory allocation failed for trimmed line.\n", EXIT_FAILURE);
+
         if (!is_empty_line(tmp_line))
+        {
+            free(tmp_line);
             error_msg(game, "Empty line in map.\n", EXIT_FAILURE);
-        free(line);
+        }
         get_map_line(game, tmp_line);
+        free(tmp_line);
         line = get_next_line(game->fd);
     }
+
+    if (game->hero == 0)
+        error_msg(game, "Player missing.\n", EXIT_FAILURE);
+
     close(game->fd);
+
+    // Free map memory
+    for (int i = 0; i < game->map_rows; i++)
+    {
+        free(game->map[i]);
+    }
+    free(game->map);
+
     check_map_walls(game);
+    error_msg(game, "Parsing done.\n", EXIT_SUCCESS);
 }

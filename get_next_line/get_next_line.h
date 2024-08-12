@@ -29,5 +29,5 @@ char *get_leftover(char *memory);
 char *get_line(char *memory);
 char *store_chunks(int fd, char *memory);
 char *get_next_line(int fd);
-
+char *ft_readline(int fd, char *buffer);
 #endif
