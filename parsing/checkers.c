@@ -1,6 +1,25 @@
 
 #include "cub3d.h"
 
+bool is_valid_char(t_data *game, char c)
+{
+    if (ft_strchr("01NSEW", c))
+    {
+        if (ft_isalpha(c))
+        {
+            if (game->hero > 0)
+            {
+                printf("Multiple hero positions found!\n");
+                return (false);
+            }
+            game->hero++;
+        }
+        return (true);
+    }
+    printf("Invalid character detected: %c\n", c);
+    return (false);
+}
+
 bool check_args(int argc, const char **argv)
 {
     int i;

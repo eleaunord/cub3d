@@ -39,6 +39,7 @@ SRCS = main.c \
 	parsing/parser.c \
 	parsing/textures.c \
 	parsing/utils.c \
+	parsing/process_map.c \
 	$(GNL_SRCS) \
 
 ## object files

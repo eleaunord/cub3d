@@ -10,6 +10,5 @@ int error_msg(t_data *game, char *mess, int status)
         ft_putstr_fd(": ", 2);
         ft_putstr_fd(mess, 2);
     }
-    ft_putstr_fd("\n", 2);
     exit(status);
 }

@@ -59,6 +59,7 @@ void	init_game(t_data *game)
 	game->map_columns = 0;
 	game->map_rows = 0;
 	game->fd = 0;
+	game->hero = 0;
 }
 
 int main(int argc, char const **argv)
@@ -66,7 +67,7 @@ int main(int argc, char const **argv)
 	t_data		data;
 
 	if (check_args(argc, argv) != true)
-		error_msg(&data, "write : ./cub3d <path/to/map.cub>", EXIT_FAILURE);
+		error_msg(&data, "valid format is : ./cub3d <path/to/map.cub>\n", EXIT_FAILURE);
 
 	ft_bzero(&data, sizeof(t_data));
 	init_game(&data);

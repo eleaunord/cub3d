@@ -82,7 +82,15 @@ void get_color_code(t_identifier color, char *line, t_data *game)
     check_color_format(game, line, &i, rgb);
     color_hex = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
     if (color == F)
-        game->floor_color = color_hex;      
+    {
+        //printf("floor get color code");
+        game->floor_color = color_hex;    
+    }
+          
     else if (color== C)
+    {
+        //printf("ceil get color code");
         game->ceiling_color = color_hex;
+    }
+       
 }

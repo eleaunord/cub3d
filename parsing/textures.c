@@ -31,7 +31,7 @@ void get_path_to_texture(t_identifier direction, char *line, t_data *game)
         error_msg(game, "Invalid filename.\n", EXIT_FAILURE);
     fd = open(path, O_RDONLY);
     if (fd < 0)
-        game->error = 7;
+        error_msg(game, "Invalid texture file.\n", EXIT_FAILURE);
     close(fd);
     set_direction(game, path, direction);
 }

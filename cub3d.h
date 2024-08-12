@@ -77,6 +77,7 @@ typedef struct s_data
 	void			*win_ptr;
 	void			*img_ptr;
 	int				*img_data;
+	// parsing
 	char			**map;
 	int				fd;
 	char			*no;
@@ -87,10 +88,11 @@ typedef struct s_data
 	char *line_tmp;
 	int map_columns;
 	int map_rows;
-	int				error;
+	int ceiling_color;
+	int floor_color;
+	int hero;
+	
 	int				bpp;
-	int				ceiling_color;
-	int				floor_color;
 	int				endian;
 	int				size_line;
 	t_raycasting	*rays;
@@ -117,5 +119,7 @@ void get_path_to_texture(t_identifier direction, char *line, t_data *game);
 void parse_file(t_data *game, const char *file);
 int is_space(char c);
 bool is_empty_line(char *line);
-
+void process_map(t_data *game, const char *file);
+bool is_valid_char(t_data *game, char c);
+bool is_all_set(t_data *game);
 #endif
