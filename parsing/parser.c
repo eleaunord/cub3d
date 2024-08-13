@@ -51,20 +51,19 @@ static void process_file_line(t_data *game, char *line)
 {
     game->line = NULL;
 
+    if ((line[0] == '1' || line[0] == ' ') && is_all_set(game))
+    {
+        get_map_size(game, line);
+    }
     if (ft_strchr(line, '.') || ft_strchr(line, ','))
         game->line = ft_strtrim(line, " \t\r");
-
+    free(line);
     if (game->line)
     {
         //printf("Debug: Processing line: %s\n", game->line);
         get_textures_and_colors(game->line, game);
         free(game->line);
     }
-    else if ((line[0] == '1' || line[0] == ' ') && is_all_set(game))
-    {
-        get_map_size(game, line);
-    }
-    free(line);
 }
 
 void parse_file(t_data *game, const char *file)
@@ -77,7 +76,6 @@ void parse_file(t_data *game, const char *file)
     if (game->fd < 0)
         error_msg(game, "Could not open map file.\n", EXIT_FAILURE);
     line = get_next_line(game->fd, 0);
-
     while (line != NULL)
     {
         tmp_line = ft_strtrim(line, "\r\n");
@@ -90,6 +88,6 @@ void parse_file(t_data *game, const char *file)
     }
     close(game->fd);
     if (is_all_set(game) == false)
-        error_msg(game, "Missing textures or colors in map file.\n", EXIT_FAILURE);
+        error_msg(game, "Missing elements in map file.\n", EXIT_FAILURE);
     process_map(game, file);
 }

@@ -35,11 +35,11 @@ SRCS = main.c \
 	parsing/checkers.c \
 	parsing/colors.c \
 	parsing/error.c \
-	parsing/free.c \
 	parsing/parser.c \
 	parsing/textures.c \
 	parsing/utils.c \
 	parsing/process_map.c \
+	parsing/fill_map.c \
 	$(GNL_SRCS) \
 
 ## object files

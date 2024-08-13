@@ -1,17 +1,5 @@
 #include "cub3d.h"
-void debug_print_game(t_data *game)
-{
-    if (game)
-    {
-        printf("Debug: game->we = %s\n", game->we ? game->we : "NULL");
-        printf("Debug: game->ea = %s\n", game->ea ? game->ea : "NULL");
-        // Print other relevant fields
-    }
-    else
-    {
-        printf("Debug: game is NULL\n");
-    }
-}
+
 static void set_direction(t_data *game, char *path, t_identifier direction)
 {
     if (direction == N)
@@ -23,11 +11,29 @@ static void set_direction(t_data *game, char *path, t_identifier direction)
     else if (direction == E)
         game->ea = path;
 }
+static void validate_path(char *path, t_data *game)
+{
+    int fd;
+
+    if (is_xpm(path) != 0)
+    {
+        free(path);
+        error_msg(game, "Invalid filename.\n", EXIT_FAILURE);
+    }
+
+    fd = open(path, O_RDONLY);
+    if (fd < 0)
+    {
+        free(path);
+        error_msg(game, "Invalid texture file.\n", EXIT_FAILURE);
+    }
+    close(fd);
+}
+
 void get_path_to_texture(t_identifier direction, char *line, t_data *game)
 {
     char *path;
     int i;
-    int fd;
 
     if (is_already_loaded(game, direction))
         error_msg(game, "Texture is already loaded.\n", EXIT_FAILURE);
@@ -39,17 +45,6 @@ void get_path_to_texture(t_identifier direction, char *line, t_data *game)
     path = ft_strdup(line + i);
     if (!path)
         error_msg(game, "Memory fail for path.\n", EXIT_FAILURE);
-    if (is_xpm(path) != 0)
-    {
-        free(path);
-        error_msg(game, "Invalid filename.\n", EXIT_FAILURE);
-    }
-    fd = open(path, O_RDONLY);
-    if (fd < 0)
-    {
-        free(path);
-        error_msg(game, "Invalid texture file.\n", EXIT_FAILURE);
-    }
-    close(fd);
+    validate_path(path, game);
     set_direction(game, path, direction);
 }

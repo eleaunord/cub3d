@@ -124,5 +124,6 @@ bool is_valid_char(t_data *game, char c);
 bool is_all_set(t_data *game);
 void free_map(t_data *game);
 void clean_up(t_data *game);
+void fill_map(t_data *game, char *line);
 
 #endif

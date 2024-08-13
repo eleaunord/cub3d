@@ -25,8 +25,6 @@ void clean_up(t_data *game)
 {
     if (!game)
         return;
-
-    // Free texture paths
     if (game->no)
     {
         free(game->no);
@@ -47,16 +45,19 @@ void clean_up(t_data *game)
         free(game->ea);
         game->ea = NULL;
     }
-
-    // Free map and other resources
     if (game->map)
         free_map(game);
 }
 
 int error_msg(t_data *game, char *mess, int status)
 {
+    if (game->line)
+        free(game->line);
     if (game->fd > 0)
+    {
+        get_next_line(game->fd, 1);
         close(game->fd);
+    }
     clean_up(game);
     ft_putstr_fd("cub3D: Error", 2);
     if (mess)

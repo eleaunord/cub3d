@@ -56,6 +56,7 @@ bool is_already_loaded(t_data *game, t_identifier elem)
         return (true);
     return (false);
 }
+
 int is_xpm(char *path)
 {
     int len;
