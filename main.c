@@ -60,6 +60,44 @@ void	init_game(t_data *game)
 	game->map_rows = 0;
 	game->fd = 0;
 	game->hero = 0;
+	game->hero_orientation = 'H';
+	game->row_start_position = 0;
+	game->col_start_position = 0;
+}
+void set_hero_orientation(t_data *game, char c)
+{
+	if (c == 'N')
+		game->hero_orientation = 'N';
+	else if (c == 'S')
+		game->hero_orientation = 'S';
+	else if (c == 'E')
+		game->hero_orientation = 'E';
+	else if (c == 'W')
+		game->hero_orientation = 'W';
+}
+
+void init_hero_pos(t_data *game)
+{
+	size_t i;
+	size_t j;
+
+	i = -1;
+	while (++i < game->map_rows)
+	{
+		j = -1;
+		while (++j < game->map_columns)
+		{
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
+				game->map[i][j] == 'E' || game->map[i][j] == 'W')
+			{
+				set_hero_orientation(game, game->map[i][j]);
+				game->row_start_position = i;
+				game->col_start_position = j;
+				return;
+			}
+		}
+	}
+	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
 }
 
 int main(int argc, char const **argv)
@@ -79,6 +117,9 @@ int main(int argc, char const **argv)
 	// init_player(&data);
 
 	parse_file(&data, argv[1]);
+	init_hero_pos(&data);
+	// printf("Hero Orientation: %c\n", data.hero_orientation);
+	// printf("Start Position: row[%ld]col[%ld]\n", data.row_start_position, data.col_start_position);
 
 	// mlx_hook(data.win_ptr, 2, 1L<<0, handle_keypress, &data);
 	// mlx_loop_hook(data.mlx_ptr, render_loop, &data);

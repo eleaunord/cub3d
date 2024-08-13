@@ -1,0 +1,6 @@
+
+Deadline : 18 aout
+
+- le parsing OK
+- l'init des valeurs aka si le joueurs est N, S, E ou W OK
+- la gestion de la fenêtre 

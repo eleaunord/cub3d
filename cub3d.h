@@ -32,6 +32,7 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.05
 
+// for parsing 
 typedef enum s_identifier
 {
 	N,
@@ -41,6 +42,7 @@ typedef enum s_identifier
 	F,
 	C
 } t_identifier;
+
 
 typedef struct s_raycasting
 {
@@ -91,8 +93,11 @@ typedef struct s_data
 	int ceiling_color;
 	int floor_color;
 	int hero;
-	
-	int				bpp;
+	char hero_orientation; // N S E OR W
+	size_t row_start_position; // i
+	size_t col_start_position; // j
+
+	int bpp;
 	int				endian;
 	int				size_line;
 	t_raycasting	*rays;
