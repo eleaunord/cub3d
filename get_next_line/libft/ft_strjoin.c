@@ -28,3 +28,4 @@ char	*ft_strjoin(char *s1, char *s2)
 		string[length++] = *s2++;
 	return (string);
 }
+

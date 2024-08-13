@@ -5,6 +5,7 @@ void free_map(t_data *game)
 {
     size_t i;
 
+
     if (game->map)
     {
         i = 0;
@@ -17,6 +18,7 @@ void free_map(t_data *game)
         free(game->map);
         game->map = NULL;
     }
+
 }
 
 void clean_up(t_data *game)
@@ -53,7 +55,8 @@ void clean_up(t_data *game)
 
 int error_msg(t_data *game, char *mess, int status)
 {
-
+    if (game->fd > 0)
+        close(game->fd);
     clean_up(game);
     ft_putstr_fd("cub3D: Error", 2);
     if (mess)

@@ -60,6 +60,7 @@ static void allocate_map_row(t_data *game, int row_index, char *trimmed_line)
         free(trimmed_line);
         error_msg(game, "Memory allocation failed for map row.\n", EXIT_FAILURE);
     }
+    game->map[row_index][game->map_columns] = '\0';
 }
 static void copy_line_to_map(t_data *game, int row_index, char *trimmed_line)
 {
@@ -80,7 +81,7 @@ static void copy_line_to_map(t_data *game, int row_index, char *trimmed_line)
 
             printf("Invalid character detected: '%c' at map[%d][%ld]\n", trimmed_line[j], row_index, j);
             free(trimmed_line);
-            free_map(game);
+            get_next_line(game->fd, 1);
             error_msg(game, "Invalid character in map line.\n", EXIT_FAILURE);
         }
         j++;
@@ -101,6 +102,7 @@ void fill_map(t_data *game, char *line)
     int row_index;
 
     trimmed_line = trim_and_check_line(line, game);
+
     free(line);
     if (game->map_rows <= 0)
     {
@@ -126,7 +128,11 @@ static void get_map_line(t_data *game, char *line, int *map_flag)
         fill_map(game, line);
     }
     else
+    {
+
         free(line);
+    }
+        
 }
 void process_map(t_data *game, const char *file)
 {
@@ -139,23 +145,24 @@ void process_map(t_data *game, const char *file)
     if (!game->map)
         error_msg(game, "Memory allocation failed for map.\n", EXIT_FAILURE);
 
+
     game->fd = open(file, O_RDONLY);
     if (game->fd < 0)
         error_msg(game, "Could not open map file.\n", EXIT_FAILURE);
-
     line = get_next_line(game->fd, 0);
     while (line != NULL)
     {
         if (is_empty_line(line) == true && map_flag == 1)
         {
             free(line);
+            get_next_line(game->fd, 1);
             error_msg(game, "Empty line in map.\n", EXIT_FAILURE);
         }
         tmp_line = ft_strtrim(line, "\r\n");
         free(line);
         if (tmp_line == NULL)
             error_msg(game, "Memory allocation failed for trimmed line.\n", EXIT_FAILURE);
-        //printf("Debug: Processed line: '%s'\n", tmp_line);
+        //printf("Debug: Trimmed line: '%s'\n", tmp_line);
         get_map_line(game, tmp_line, &map_flag);
         line = get_next_line(game->fd, 0);
     }
@@ -163,5 +170,5 @@ void process_map(t_data *game, const char *file)
         error_msg(game, "Player missing.\n", EXIT_FAILURE);
     close(game->fd);
     check_map_walls(game);
-    error_msg(game, "Parsing done.\n", EXIT_SUCCESS);
+    //error_msg(game, "Parsing done.\n", EXIT_SUCCESS);
 }
