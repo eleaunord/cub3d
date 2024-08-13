@@ -21,13 +21,9 @@
 #define BUFFER_SIZE 10
 #endif
 
-char *ft_strjoin_mod(char *s1, const char *s2);
-char *ft_strndup(const char *s, size_t n);
-char *ft_strchr_mod(const char *s, int c);
-size_t ft_strclen(const char *s, int c);
-char *get_leftover(char *memory);
-char *get_line(char *memory);
-char *store_chunks(int fd, char *memory);
-char *get_next_line(int fd);
+char *get_next_line(int fd, int n);
+char *ft_buffertrim(char *buffer);
+char *ft_getline(char *buffer);
 char *ft_readline(int fd, char *buffer);
+
 #endif

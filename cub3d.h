@@ -86,8 +86,8 @@ typedef struct s_data
 	char *ea;
 	char *line;
 	char *line_tmp;
-	int map_columns;
-	int map_rows;
+	size_t map_columns;
+	size_t map_rows;
 	int ceiling_color;
 	int floor_color;
 	int hero;
@@ -122,4 +122,5 @@ bool is_empty_line(char *line);
 void process_map(t_data *game, const char *file);
 bool is_valid_char(t_data *game, char c);
 bool is_all_set(t_data *game);
+void free_map(t_data *game);
 #endif

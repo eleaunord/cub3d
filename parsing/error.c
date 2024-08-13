@@ -3,7 +3,7 @@
 
 void free_map(t_data *game)
 {
-    int i;
+    size_t i;
 
     if (game->map)
     {
@@ -23,20 +23,37 @@ void clean_up(t_data *game)
 {
     if (!game)
         return;
+
+    // Free texture paths
+    if (game->no)
+    {
+        free(game->no);
+        game->no = NULL;
+    }
+    if (game->so)
+    {
+        free(game->so);
+        game->so = NULL;
+    }
+    if (game->we)
+    {
+        free(game->we);
+        game->we = NULL;
+    }
+    if (game->ea)
+    {
+        free(game->ea);
+        game->ea = NULL;
+    }
+
+    // Free map and other resources
     if (game->map)
         free_map(game);
-    if (game->no)
-        free(game->no);
-    if (game->so)
-        free(game->so);
-    if (game->we)
-        free(game->we);
-    if (game->ea)
-        free(game->ea);
 }
 
 int error_msg(t_data *game, char *mess, int status)
 {
+
     clean_up(game);
     ft_putstr_fd("cub3D: Error", 2);
     if (mess)
@@ -44,5 +61,6 @@ int error_msg(t_data *game, char *mess, int status)
         ft_putstr_fd(": ", 2);
         ft_putstr_fd(mess, 2);
     }
+
     exit(status);
 }

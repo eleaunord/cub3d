@@ -54,8 +54,8 @@ void	init_game(t_data *game)
 	game->so = NULL;
 	game->line = NULL;
 	game->line_tmp = NULL;
-	game->ceiling_color = 0;
-	game->floor_color = 0;
+	game->ceiling_color = -1;
+	game->floor_color = -1;
 	game->map_columns = 0;
 	game->map_rows = 0;
 	game->fd = 0;
@@ -67,7 +67,10 @@ int main(int argc, char const **argv)
 	t_data		data;
 
 	if (check_args(argc, argv) != true)
-		error_msg(&data, "valid format is : ./cub3d <path/to/map.cub>\n", EXIT_FAILURE);
+	{
+		write(2, "valid format is : ./cub3d <path/to/map.cub>\n", 44);
+		exit(EXIT_FAILURE);
+	}
 
 	ft_bzero(&data, sizeof(t_data));
 	init_game(&data);

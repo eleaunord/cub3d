@@ -74,6 +74,7 @@ void get_color_code(t_identifier color, char *line, t_data *game)
     rgb[0] = 0;
     rgb[1] = 0;
     rgb[2] = 0;
+
     if (is_already_loaded(game, color) == true)
         error_msg(game, "Color is already loaded.\n", EXIT_FAILURE);
     i = 1;
@@ -83,14 +84,15 @@ void get_color_code(t_identifier color, char *line, t_data *game)
     color_hex = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
     if (color == F)
     {
-        //printf("floor get color code");
-        game->floor_color = color_hex;    
+        game->floor_color = color_hex;
+        //printf("Debug: Set floor color to %d\n", game->floor_color);
     }
           
     else if (color== C)
     {
         //printf("ceil get color code");
         game->ceiling_color = color_hex;
+        //printf("Debug: Set ceiling color to %d\n", game->ceiling_color);
     }
        
 }

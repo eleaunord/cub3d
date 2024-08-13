@@ -13,10 +13,11 @@ bool is_valid_char(t_data *game, char c)
                 return (false);
             }
             game->hero++;
+             //printf("game hero : %d\n", game->hero);
         }
         return (true);
     }
-    printf("Invalid character detected: %c\n", c);
+    //printf("Invalid character detected: %c\n", c);
     return (false);
 }
 
@@ -49,9 +50,9 @@ bool is_already_loaded(t_data *game, t_identifier elem)
         return (true);
     else if (elem == E && game->ea)
         return (true);
-    else if (elem == F && game->floor_color)
+    else if (elem == F && game->floor_color != -1)
         return (true);
-    else if (elem == C && game->ceiling_color)
+    else if (elem == C && game->ceiling_color != -1)
         return (true);
     return (false);
 }
