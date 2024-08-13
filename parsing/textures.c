@@ -52,5 +52,4 @@ void get_path_to_texture(t_identifier direction, char *line, t_data *game)
     }
     close(fd);
     set_direction(game, path, direction);
-
 }
