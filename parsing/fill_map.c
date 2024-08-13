@@ -50,7 +50,7 @@ static void copy_line_to_map(t_data *game, int row_index, char *trimmed_line)
 			game->map[row_index][j] = trimmed_line[j];
 		else
 		{
-			printf("Invalid character detected: '%c' at map[%d][%ld]\n", trimmed_line[j], row_index, j);
+			//printf("Invalid character detected: '%c' at map[%d][%ld]\n", trimmed_line[j], row_index, j);
 			free(trimmed_line);
 			get_next_line(game->fd, 1);
 			error_msg(game, "Invalid character in map line.\n", EXIT_FAILURE);
@@ -75,7 +75,7 @@ void fill_map(t_data *game, char *line)
 	if (game->map_rows <= 0)
 	{
 		free(trimmed_line);
-		error_msg(game, "Map rows not set properly.\n", EXIT_FAILURE);
+		error_msg(game, "Map not set properly.\n", EXIT_FAILURE);
 	}
 	row_index = find_row_index(game);
 	// printf("Debug: Fill map, row_index: %d\n", row_index);

@@ -63,6 +63,7 @@ static void process_file_line(t_data *game, char *line)
         //printf("Debug: Processing line: %s\n", game->line);
         get_textures_and_colors(game->line, game);
         free(game->line);
+        game->line = NULL;
     }
 }
 
