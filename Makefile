@@ -34,12 +34,13 @@ LIBMATH_FLAGS = -lm
 SRCS = main.c \
 	parsing/checkers.c \
 	parsing/colors.c \
-	parsing/error.c \
+	error.c \
 	parsing/parser.c \
 	parsing/textures.c \
 	parsing/utils.c \
 	parsing/process_map.c \
 	parsing/fill_map.c \
+	init.c \
 	$(GNL_SRCS) \
 
 ## object files

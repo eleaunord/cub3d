@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+ //valgrind --leak-check=full --show-leak-kinds=all ./executable description.cub 2> leak.log 
+
 
 /*
 		1111111111111111111111111
@@ -47,57 +49,13 @@
 // 	return (0);
 // }
 
-void	init_game(t_data *game)
+int close_window(t_data *game)
 {
-	game->we = NULL;
-	game->ea = NULL;
-	game->so = NULL;
-	game->line = NULL;
-	game->line_tmp = NULL;
-	game->ceiling_color = -1;
-	game->floor_color = -1;
-	game->map_columns = 0;
-	game->map_rows = 0;
-	game->fd = 0;
-	game->hero = 0;
-	game->hero_orientation = 'H';
-	game->row_start_position = 0;
-	game->col_start_position = 0;
-}
-void set_hero_orientation(t_data *game, char c)
-{
-	if (c == 'N')
-		game->hero_orientation = 'N';
-	else if (c == 'S')
-		game->hero_orientation = 'S';
-	else if (c == 'E')
-		game->hero_orientation = 'E';
-	else if (c == 'W')
-		game->hero_orientation = 'W';
-}
-
-void init_hero_pos(t_data *game)
-{
-	size_t i;
-	size_t j;
-
-	i = -1;
-	while (++i < game->map_rows)
-	{
-		j = -1;
-		while (++j < game->map_columns)
-		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
-				game->map[i][j] == 'E' || game->map[i][j] == 'W')
-			{
-				set_hero_orientation(game, game->map[i][j]);
-				game->row_start_position = i;
-				game->col_start_position = j;
-				return;
-			}
-		}
-	}
-	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
+	clean_up(game);
+	clean_mlx(game);
+	free(game);
+	exit(EXIT_SUCCESS);
+	return (0);
 }
 
 int main(int argc, char const **argv)
@@ -109,19 +67,27 @@ int main(int argc, char const **argv)
 		write(2, "valid format is : ./cub3d <path/to/map.cub>\n", 44);
 		exit(EXIT_FAILURE);
 	}
-
 	ft_bzero(&data, sizeof(t_data));
-	init_game(&data);
-	// init_mlx(&data);
+	init_game_input(&data);
+	parse_file(&data, argv[1]);
+	init_hero_pos(&data);
+	// init player here
+	init_graphics(&data);
+	// press keys mlx
+	//close window
+	mlx_hook(data.win_ptr, 17, (1L << 1), &close_window, NULL);
+	// loop
+	mlx_loop(data.mlx_ptr);
+	return (0);
 	// init_map(&data);
 	// init_player(&data);
 
-	parse_file(&data, argv[1]);
-	init_hero_pos(&data);
+	
+	
 	// printf("Hero Orientation: %c\n", data.hero_orientation);
 	// printf("Start Position: row[%ld]col[%ld]\n", data.row_start_position, data.col_start_position);
 
 	// mlx_hook(data.win_ptr, 2, 1L<<0, handle_keypress, &data);
 	// mlx_loop_hook(data.mlx_ptr, render_loop, &data);
-	// mlx_loop(data.mlx_ptr);
+
 }

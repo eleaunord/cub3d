@@ -12,23 +12,76 @@
 
 #include "cub3d.h"
 
-void	init_map(t_data *data)
+// void	init_map(t_data *data)
+// {
+// 	data->map = malloc(sizeof(char *) * 14);
+// 	data->map[0] = ft_strdup("        1111111111111111111111111");
+// 	data->map[1] = ft_strdup("        1000000000110000000000001");
+// 	data->map[2] = ft_strdup("        1011000001110000000000001");
+// 	data->map[3] = ft_strdup("        1001000000000000001000001");
+// 	data->map[4] = ft_strdup("111111111011000001110000000000001");
+// 	data->map[5] = ft_strdup("100000000011000001110111100111111");
+// 	data->map[6] = ft_strdup("11110111111111011100000010001");
+// 	data->map[7] = ft_strdup("11110111111111011101010010001");
+// 	data->map[8] = ft_strdup("11000000110101011100000010001");
+// 	data->map[9] = ft_strdup("10000000000000001100000010001");
+// 	data->map[10] = ft_strdup("10000000000000001101010010001");
+// 	data->map[11] = ft_strdup("11000001110101011111011110N0111");
+// 	data->map[12] = ft_strdup("11110111 1110101 101111010001");
+// 	data->map[13] = ft_strdup("11111111 1111111 111111111111");
+// }
+
+void init_game_input(t_data *game)
 {
-	data->map = malloc(sizeof(char *) * 14);
-	data->map[0] = ft_strdup("        1111111111111111111111111");
-	data->map[1] = ft_strdup("        1000000000110000000000001");
-	data->map[2] = ft_strdup("        1011000001110000000000001");
-	data->map[3] = ft_strdup("        1001000000000000001000001");
-	data->map[4] = ft_strdup("111111111011000001110000000000001");
-	data->map[5] = ft_strdup("100000000011000001110111100111111");
-	data->map[6] = ft_strdup("11110111111111011100000010001");
-	data->map[7] = ft_strdup("11110111111111011101010010001");
-	data->map[8] = ft_strdup("11000000110101011100000010001");
-	data->map[9] = ft_strdup("10000000000000001100000010001");
-	data->map[10] = ft_strdup("10000000000000001101010010001");
-	data->map[11] = ft_strdup("11000001110101011111011110N0111");
-	data->map[12] = ft_strdup("11110111 1110101 101111010001");
-	data->map[13] = ft_strdup("11111111 1111111 111111111111");
+	game->we = NULL;
+	game->ea = NULL;
+	game->so = NULL;
+	game->line = NULL;
+	game->line_tmp = NULL;
+	game->ceiling_color = -1;
+	game->floor_color = -1;
+	game->map_columns = 0;
+	game->map_rows = 0;
+	game->fd = 0;
+	game->hero = 0;
+	game->hero_orientation = 'H';
+	game->row_start_position = 0;
+	game->col_start_position = 0;
+}
+static void set_hero_orientation(t_data *game, char c)
+{
+	if (c == 'N')
+		game->hero_orientation = 'N';
+	else if (c == 'S')
+		game->hero_orientation = 'S';
+	else if (c == 'E')
+		game->hero_orientation = 'E';
+	else if (c == 'W')
+		game->hero_orientation = 'W';
+}
+
+void init_hero_pos(t_data *game)
+{
+	size_t i;
+	size_t j;
+
+	i = -1;
+	while (++i < game->map_rows)
+	{
+		j = -1;
+		while (++j < game->map_columns)
+		{
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
+				game->map[i][j] == 'E' || game->map[i][j] == 'W')
+			{
+				set_hero_orientation(game, game->map[i][j]);
+				game->row_start_position = i;
+				game->col_start_position = j;
+				return;
+			}
+		}
+	}
+	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
 }
 
 void	init_player(t_data *data)
@@ -41,56 +94,66 @@ void	init_player(t_data *data)
 	data->player.plane_y = 0.66;
 }
 
-void	init_mlx(t_data *data)
+void init_graphics(t_data *game)
 {
-	data->mlx_ptr = mlx_init();
-	data->win_ptr
-		= mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
-	data->img_ptr = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	data->img_data = (int *)mlx_get_data_addr(data->img_ptr, &data->bpp,
-			&data->size_line, &data->endian);
-	data->rays = malloc(sizeof(t_raycasting));
-	data->ceiling_color = 0x87CEEB;
-	data->floor_color = 0x8B4513;
+	game->mlx_ptr = mlx_init();
+	if (!game->mlx_ptr)
+		error_msg(game, "Error initializing mlx\n", EXIT_FAILURE);
+	game->win_ptr = mlx_new_window(game->mlx_ptr, WIN_WIDTH, WIN_WIDTH, "Cub3D");
+	if (!game->win_ptr)
+		error_msg(game, "Error creating window\n", EXIT_FAILURE);
 }
 
-void	render_minimap(t_data *data)
-{
-	int		color;
-	int		pixel_pos;
-	char	c;
+// void	init_mlx(t_data *data)
+// {
+// 	data->mlx_ptr = mlx_init();
+// 	data->win_ptr
+// 		= mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+// 	data->img_ptr = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_WIDTH);
+// 	data->img_data = (int *)mlx_get_data_addr(data->img_ptr, &data->bpp,
+// 			&data->size_line, &data->endian);
+// 	data->rays = malloc(sizeof(t_raycasting));
+// 	data->ceiling_color = 0x87CEEB;
+// 	data->floor_color = 0x8B4513;
+// }
 
-	int (i) = 0;
-	int (j) = 0;
-	int (x) = 0;
-	int (y) = 0;
-	while (i < 14)
-	{
-		j = 0;
-		while (j < ft_strlen(data->map[i]))
-		{
-			if (data->map[i][j] == '1')
-				color = 0xFFFFFF;
-			else
-				color = 0x0000FF;
-			c = data->map[i][j];
-			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-				color = 0x00FF00;
-			x = 0;
-			while (x < TILE_SIZE)
-			{
-				y = 0;
-				while (y < TILE_SIZE)
-				{
-					pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4)
-						+ (j * TILE_SIZE + x);
-					data->img_data[pixel_pos] = color;
-					y++;
-				}
-				x++;
-			}
-			j++;
-		}
-		i++;
-	}
-}
+// void	render_minimap(t_data *data)
+// {
+// 	int		color;
+// 	int		pixel_pos;
+// 	char	c;
+
+// 	int (i) = 0;
+// 	int (j) = 0;
+// 	int (x) = 0;
+// 	int (y) = 0;
+// 	while (i < 14)
+// 	{
+// 		j = 0;
+// 		while (j < ft_strlen(data->map[i]))
+// 		{
+// 			if (data->map[i][j] == '1')
+// 				color = 0xFFFFFF;
+// 			else
+// 				color = 0x0000FF;
+// 			c = data->map[i][j];
+// 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+// 				color = 0x00FF00;
+// 			x = 0;
+// 			while (x < TILE_SIZE)
+// 			{
+// 				y = 0;
+// 				while (y < TILE_SIZE)
+// 				{
+// 					pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4)
+// 						+ (j * TILE_SIZE + x);
+// 					data->img_data[pixel_pos] = color;
+// 					y++;
+// 				}
+// 				x++;
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }

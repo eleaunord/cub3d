@@ -106,11 +106,8 @@ typedef struct s_data
 
 //fonctions
 void	init_map(t_data *data);
-void	init_mlx(t_data *data);
 void	render_minimap(t_data *data);
-void	init_player(t_data *data);
 int		handle_keypress(int keycode, t_data *data);
-
 void	cast_rays(t_data *data, int x);
 
 
@@ -130,5 +127,13 @@ bool is_all_set(t_data *game);
 void free_map(t_data *game);
 void clean_up(t_data *game);
 void fill_map(t_data *game, char *line);
+
+// init
+//void init_mlx(t_data *data);
+void init_player(t_data *data);
+void init_hero_pos(t_data *game);
+void init_game_input(t_data *game);
+void init_graphics(t_data *game);
+void clean_mlx(t_data *game);
 
 #endif

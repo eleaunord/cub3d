@@ -5,7 +5,6 @@ void free_map(t_data *game)
 {
     size_t i;
 
-
     if (game->map)
     {
         i = 0;
@@ -20,7 +19,17 @@ void free_map(t_data *game)
     }
 
 }
-
+void clean_mlx(t_data *game)
+{
+    if (!game)
+        return;
+    if (game->win_ptr)
+        mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+    if (game->mlx_ptr)
+        mlx_destroy_display(game->mlx_ptr);
+    if (game->mlx_ptr)
+        free(game->mlx_ptr);
+}
 void clean_up(t_data *game)
 {
     if (!game)
@@ -59,6 +68,7 @@ int error_msg(t_data *game, char *mess, int status)
         close(game->fd);
     }
     clean_up(game);
+    clean_mlx(game);
     ft_putstr_fd("cub3D: Error", 2);
     if (mess)
     {
