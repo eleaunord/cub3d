@@ -44,12 +44,6 @@ void	render_frame(t_data *data)
 int	render_loop(t_data *data)
 {
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
-	int i = 0;
-	while (i < WIN_WIDTH * WIN_HEIGHT)
-	{
-		data->img_data[i] = 0x00FF00; // Green background
-		i++;
-	}
 	render_frame(data);
 	render_minimap(data);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img_ptr, 0, 0);
