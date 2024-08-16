@@ -42,7 +42,7 @@ void draw_game(t_data *data, int x)
 	y = 0;
 	while (y < draw_start)
 	{
-		if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+		if ((x >= 0 && x < WIN_WIDTH )&& (y >= 0 && y < WIN_HEIGHT))
 		{
 			data->img_data[y * (data->size_line / 4) + x] = data->ceiling_color;
 		}
@@ -50,13 +50,13 @@ void draw_game(t_data *data, int x)
 	}
 	while (y < draw_end)
 	{
-		if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+		if ((x >= 0 && x < WIN_WIDTH) &&( y >= 0 && y < WIN_HEIGHT))
 			data->img_data[y * (data->size_line / 4) + x] = color;
 		y++;
 	}
 	while (y < WIN_HEIGHT)
 	{
-		if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+		if ((x >= 0 && x < WIN_WIDTH )&& (y >= 0 && y < WIN_HEIGHT))
 			data->img_data[y * (data->size_line / 4) + x] = data->floor_color;
 		y++;
 	}

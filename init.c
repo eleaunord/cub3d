@@ -94,8 +94,12 @@ void init_graphics(t_data *game)
 	if (!game->win_ptr)
 		error_msg(game, "Error creating window\n", EXIT_FAILURE);
 	game->img_ptr = mlx_new_image(game->mlx_ptr, WIN_WIDTH, WIN_WIDTH);
+	if (!game->img_ptr)
+		error_msg(game, "Error on mlx new image\n", EXIT_FAILURE);
 	game->img_data = (int *)mlx_get_data_addr(game->img_ptr, &game->bpp,
 											  &game->size_line, &game->endian);
+	if (!game->img_data)
+		error_msg(game, "Error on mlx get data addr\n", EXIT_FAILURE);
 	game->rays = malloc(sizeof(t_raycasting));
 	game->ceiling_color = 0x87CEEB;
 	game->floor_color = 0x8B4513;
