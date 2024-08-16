@@ -80,7 +80,6 @@ void process_map(t_data *game, const char *file)
         error_msg(game, "Player missing.\n", EXIT_FAILURE);
     close(game->fd);
     check_map_walls(game);
-    //error_msg(game, "Parsing done.\n", EXIT_SUCCESS);
 }
 
 // error_msg(game, "Parsing done.\n", EXIT_SUCCESS);

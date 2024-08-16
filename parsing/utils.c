@@ -2,7 +2,7 @@
 
 int is_number(char *str)
 {
-    int i;
+    size_t i;
     int result;
 
     i = 0;

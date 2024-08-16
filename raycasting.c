@@ -22,6 +22,12 @@ void init_var_rays(t_data *data, int x)
 	data->rays->delta_dist_x = fabs(1 / data->rays->ray_dir_x);
 	data->rays->delta_dist_y = fabs(1 / data->rays->ray_dir_y);
 	data->rays->hit = 0;
+
+	double epsilon = 1e-6;
+	data->rays->delta_dist_x = fabs(data->rays->ray_dir_x) > epsilon ? fabs(1 / data->rays->ray_dir_x) : 1e30;
+	data->rays->delta_dist_y = fabs(data->rays->ray_dir_y) > epsilon ? fabs(1 / data->rays->ray_dir_y) : 1e30;
+
+	data->rays->hit = 0;
 }
 void draw_game(t_data *data, int x)
 {
@@ -117,7 +123,6 @@ void calculate_step_and_side(t_data *data)
 		data->rays->side_dist_y = (data->rays->map_y + 1.0 - data->player.player_y) * data->rays->delta_dist_y;
 	}
 }
-
 void cast_rays(t_data *data, int x)
 {
 	init_var_rays(data, x);
