@@ -32,6 +32,12 @@
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.05
 
+#define PI 3.1415926535
+#define PI_DOUBLE 6.2831853071
+#define PI_HALF 1.5707963267
+#define PI_THREE_HALFS 4.7123889803
+
+#define GRID_LEN 64
 // for parsing 
 typedef enum s_identifier
 {
@@ -96,6 +102,7 @@ typedef struct s_data
 	char hero_orientation; // N S E OR W
 	size_t row_start_position; // i
 	size_t col_start_position; // j
+	float pos_angle;
 
 	int bpp;
 	int				endian;
@@ -103,6 +110,7 @@ typedef struct s_data
 	t_raycasting	*rays;
 	t_player		player;
 }	t_data;
+
 
 //fonctions
 void	init_map(t_data *data);

@@ -40,6 +40,8 @@ SRCS = main.c \
 	parsing/utils.c \
 	parsing/process_map.c \
 	parsing/fill_map.c \
+	raycasting.c \
+	move_player.c \
 	init.c \
 	$(GNL_SRCS) \
 
