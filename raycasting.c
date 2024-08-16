@@ -21,14 +21,13 @@ void init_var_rays(t_data *data, int x)
 	data->rays->map_y = (int)data->player.player_y;
 	data->rays->delta_dist_x = fabs(1 / data->rays->ray_dir_x);
 	data->rays->delta_dist_y = fabs(1 / data->rays->ray_dir_y);
-	data->rays->hit = 0;
 
-	double epsilon = 1e-6;
-	data->rays->delta_dist_x = fabs(data->rays->ray_dir_x) > epsilon ? fabs(1 / data->rays->ray_dir_x) : 1e30;
-	data->rays->delta_dist_y = fabs(data->rays->ray_dir_y) > epsilon ? fabs(1 / data->rays->ray_dir_y) : 1e30;
-
-	data->rays->hit = 0;
+	// Debugging output
+	printf("Ray Dir X: %f, Ray Dir Y: %f\n", data->rays->ray_dir_x, data->rays->ray_dir_y);
+	printf("Delta Dist X: %f, Delta Dist Y: %f\n", data->rays->delta_dist_x, data->rays->delta_dist_y);
+	printf("Map X: %d, Map Y: %d\n", data->rays->map_x, data->rays->map_y);
 }
+
 void draw_game(t_data *data, int x)
 {
 	int color;
@@ -97,6 +96,8 @@ void check_hit(t_data *data)
 		{
 			data->rays->hit = 1;
 		}
+		// Debugging output
+		printf("Checking hit: map_x=%d, map_y=%d\n", data->rays->map_x, data->rays->map_y);
 	}
 }
 
@@ -122,7 +123,12 @@ void calculate_step_and_side(t_data *data)
 		data->rays->step_y = 1;
 		data->rays->side_dist_y = (data->rays->map_y + 1.0 - data->player.player_y) * data->rays->delta_dist_y;
 	}
+
+	// Debugging output
+	printf("Step X: %d, Side Dist X: %f\n", data->rays->step_x, data->rays->side_dist_x);
+	printf("Step Y: %d, Side Dist Y: %f\n", data->rays->step_y, data->rays->side_dist_y);
 }
+
 void cast_rays(t_data *data, int x)
 {
 	init_var_rays(data, x);
@@ -134,4 +140,7 @@ void cast_rays(t_data *data, int x)
 		data->rays->perp_wall_dist = (data->rays->map_y - data->player.player_y + (1 - data->rays->step_y) / 2) / data->rays->ray_dir_y;
 	data->rays->line_height = (int)(WIN_HEIGHT / data->rays->perp_wall_dist);
 	draw_game(data, x);
+
+	// Debugging output
+	printf("Perp Wall Dist: %f, Line Height: %d\n", data->rays->perp_wall_dist, data->rays->line_height);
 }
