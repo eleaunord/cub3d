@@ -66,7 +66,7 @@ int main(int argc, char const **argv)
 	ft_bzero(&data, sizeof(t_data));
 	init_game_input(&data);
 	parse_file(&data, argv[1]);
-	init_hero_pos(&data);
+	//init_hero_pos(&data);
 	init_player(&data);
 	init_graphics(&data);
 	init_textures(&data);

@@ -22,6 +22,8 @@ void init_var_rays(t_data *data, int x)
 	data->rays->delta_dist_x = fabs(1 / data->rays->ray_dir_x);
 	data->rays->delta_dist_y = fabs(1 / data->rays->ray_dir_y);
 	data->rays->hit = 0;
+	    data->rays->step_x = 0;
+    data->rays->step_y = 0;
 }
 
 void check_hit(t_data *data)
@@ -40,8 +42,10 @@ void check_hit(t_data *data)
 			data->rays->map_y += data->rays->step_y;
 			data->rays->side = 1;
 		}
-		if (data->rays->map_x >= data->map_rows || data->rays->map_y >= data->map_columns)
+		if (data->rays->map_x >= data->map_rows ||
+			data->rays->map_y >= data->map_columns)
 		{
+			data->rays->hit = -1;
 			break;
 		}
 		if (data->map[data->rays->map_x][data->rays->map_y] == '1')
@@ -85,5 +89,5 @@ void cast_rays(t_data *data, int x)
 	else
 		data->rays->perp_wall_dist = (data->rays->map_y - data->player.player_y + (1 - data->rays->step_y) / 2) / data->rays->ray_dir_y;
 	data->rays->line_height = (int)(WIN_HEIGHT / data->rays->perp_wall_dist);
-	draw_game(data, x);
+	//draw_game(data, x);
 }

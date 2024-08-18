@@ -39,17 +39,14 @@ static void set_hero_orientation(t_data *game, char c)
 	else if (c == 'S')
 	{
 		game->hero_orientation = 'S';
-		game->pos_angle = PI_THREE_HALFS;
 	}
 	else if (c == 'E')
 	{
 		game->hero_orientation = 'E';
-		game->pos_angle = 0;
 	}
 	else if (c == 'W')
 	{
 		game->hero_orientation = 'W';
-		game->pos_angle = PI;
 	}
 }
 
@@ -79,6 +76,8 @@ void init_hero_pos(t_data *game)
 
 void init_player(t_data *data)
 {
+	data->player.player_x = 11;
+	data->player.player_y = 26;
 	data->player.player_dir_x = -1;
 	data->player.player_dir_y = 0;
 	data->player.plane_x = 0;

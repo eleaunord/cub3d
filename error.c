@@ -19,6 +19,7 @@ void free_map(t_data *game)
     }
 
 }
+
 void clean_mlx(t_data *game)
 {
     if (!game)
@@ -29,6 +30,25 @@ void clean_mlx(t_data *game)
         mlx_destroy_display(game->mlx_ptr);
     if (game->mlx_ptr)
         free(game->mlx_ptr);
+}
+
+void clean_exec(t_data *game)
+{
+    int i;
+    if (game->rays)
+    {
+        free(game->rays);
+        game->rays = NULL;
+    }
+    i = 0;
+    while (i < 4)
+    {
+        if (game->texture_buffer[i] != NULL)
+        {
+            free(game->texture_buffer[i]);
+            game->texture_buffer[i] = NULL;
+        }
+    }
 }
 void clean_up(t_data *game)
 {
@@ -56,6 +76,7 @@ void clean_up(t_data *game)
     }
     if (game->map)
         free_map(game);
+    //clean_exec(game);
 }
 
 int error_msg(t_data *game, char *mess, int status)
