@@ -43,6 +43,7 @@ SRCS = main.c \
 	raycasting.c \
 	move_player.c \
 	init.c \
+	textures.c \
 	$(GNL_SRCS) \
 
 ## object files

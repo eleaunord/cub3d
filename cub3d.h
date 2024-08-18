@@ -25,8 +25,16 @@
 # include <stdbool.h>
 # include "get_next_line/get_next_line.h"
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+#define WIN_WIDTH 1920
+#define WIN_HEIGHT 1080
+#define MOVE_SPEED 0.05
+#define ROT_SPEED 0.05
+#define TEXTURE_SIZE 64
+#define NORTH 0
+#define SOUTH 1
+#define EAST 2
+#define WEST 3
+
 # define TILE_SIZE 8
 # define FOV 60 * (M_PI / 180)
 # define MOVE_SPEED 0.05
@@ -55,8 +63,8 @@ typedef struct s_raycasting
 	double	camera_x;
 	double	ray_dir_x;
 	double	ray_dir_y;
-	int		map_x;
-	int		map_y;
+	size_t		map_x;
+	size_t map_y;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
@@ -78,6 +86,24 @@ typedef struct s_player
 	double			plane_x;
 	double			plane_y;
 }	t_player;
+
+typedef struct s_textures
+{
+	int *image_texture_data;
+	int width;
+	int height;
+	int bpp;
+	int size_line;
+	int endian;
+	int y;
+	int tex_x;
+	double pos;
+	double step;
+	double wall_x;
+	int draw_start;
+	int draw_end;
+
+} t_textures;
 
 typedef struct s_data
 {
@@ -103,21 +129,25 @@ typedef struct s_data
 	size_t row_start_position; // i
 	size_t col_start_position; // j
 	float pos_angle;
-
+	int *texture_buffer[4];
 	int bpp;
 	int				endian;
 	int				size_line;
 	t_raycasting	*rays;
 	t_player		player;
+	t_textures texture;
 }	t_data;
 
 
 //fonctions
-void	init_map(t_data *data);
-void	render_minimap(t_data *data);
-int		handle_keypress(int keycode, t_data *data);
-void	cast_rays(t_data *data, int x);
-
+void init_map(t_data *data);
+void init_mlx(t_data *data);
+void init_player(t_data *data);
+int handle_keypress(int keycode, t_data *data);
+void draw_game(t_data *data, int x);
+void cast_rays(t_data *data, int x);
+void init_textures(t_data *data);
+void free_all(t_data *data);
 
 // parsing
 int error_msg(t_data *game, char *mess, int num);
@@ -138,6 +168,7 @@ void fill_map(t_data *game, char *line);
 
 // init
 //void init_mlx(t_data *data);
+int close_window(t_data *game);
 void init_player(t_data *data);
 void init_hero_pos(t_data *game);
 void init_game_input(t_data *game);

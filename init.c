@@ -68,8 +68,8 @@ void init_hero_pos(t_data *game)
 				game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
 				set_hero_orientation(game, game->map[i][j]);
-				game->row_start_position = (float)i * GRID_LEN + GRID_LEN / 2;
-				game->col_start_position = (float)j * GRID_LEN + GRID_LEN / 2;
+				game->player.player_x = (float)i * GRID_LEN + GRID_LEN / 2;
+				game->player.player_y = (float)j * GRID_LEN + GRID_LEN / 2;
 				return;
 			}
 		}
@@ -77,10 +77,10 @@ void init_hero_pos(t_data *game)
 	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
 }
 
-void	init_player(t_data *data)
+void init_player(t_data *data)
 {
-	data->player.player_dir_x = cos(data->pos_angle) * 2.2;
-	data->player.player_dir_y = sin(data->pos_angle) * -2.2; // 2.2 is the player's speed
+	data->player.player_dir_x = -1;
+	data->player.player_dir_y = 0;
 	data->player.plane_x = 0;
 	data->player.plane_y = 0.66;
 }
@@ -102,11 +102,7 @@ void init_graphics(t_data *game)
 		error_msg(game, "Error on mlx get data addr\n", EXIT_FAILURE);
 	game->rays = ft_calloc(1, sizeof(t_raycasting));
 	if (!game->rays)
-		error_msg(game, "Failed malloc on rays\n", EXIT_FAILURE);
-	game->ceiling_color = 0x87CEEB;
-	game->floor_color = 0x8B4513;
-
-	
+		error_msg(game, "Failed malloc on rays\n", EXIT_FAILURE);	
 }
 
 void	render_minimap(t_data *data)
