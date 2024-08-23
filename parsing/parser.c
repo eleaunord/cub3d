@@ -52,15 +52,12 @@ static void process_file_line(t_data *game, char *line)
     game->line = NULL;
 
     if ((line[0] == '1' || line[0] == ' ') && is_all_set(game))
-    {
         get_map_size(game, line);
-    }
     if (ft_strchr(line, '.') || ft_strchr(line, ','))
         game->line = ft_strtrim(line, " \t\r");
     free(line);
     if (game->line)
     {
-        //printf("Debug: Processing line: %s\n", game->line);
         get_textures_and_colors(game->line, game);
         free(game->line);
         game->line = NULL;
@@ -82,7 +79,6 @@ void parse_file(t_data *game, const char *file)
         tmp_line = ft_strtrim(line, "\r\n");
         if (tmp_line == NULL)
             error_msg(game, "Memory allocation failed for trimmed line.\n", EXIT_FAILURE);
-        //printf("Debug: Read line: %s\n", tmp_line);
         free(line);
         process_file_line(game, tmp_line);
         line = get_next_line(game->fd, 0);

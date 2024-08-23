@@ -25,28 +25,36 @@ void init_game_input(t_data *game)
 	game->map_rows = 0;
 	game->fd = -1;
 	game->hero = 0;
-	game->hero_orientation = 'H';
-	game->row_start_position = 0;
-	game->col_start_position = 0;
 }
-static void set_hero_orientation(t_data *game, char c)
+static void set_hero_orientation(t_data *data, char c)
 {
 	if (c == 'N')
 	{
-		game->hero_orientation = 'N';
-		game->pos_angle = PI_HALF;
+		data->player.player_dir_y = 0;
+		data->player.player_dir_x = -1;
+		data->player.plane_y = 0.66;
+		data->player.plane_x = 0;
 	}
 	else if (c == 'S')
 	{
-		game->hero_orientation = 'S';
+		data->player.player_dir_y = 0;
+		data->player.player_dir_x = 1;
+		data->player.plane_y = -0.66;
+		data->player.plane_x = 0;
 	}
 	else if (c == 'E')
 	{
-		game->hero_orientation = 'E';
+		data->player.player_dir_y = 1;
+		data->player.player_dir_x = 0;
+		data->player.plane_y = 0;
+		data->player.plane_x = 0.66;
 	}
 	else if (c == 'W')
 	{
-		game->hero_orientation = 'W';
+		data->player.player_dir_y = -1;
+		data->player.player_dir_x = 0;
+		data->player.plane_y = 0;
+		data->player.plane_x = -0.66;
 	}
 }
 
@@ -65,23 +73,13 @@ void init_hero_pos(t_data *game)
 				game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
 				set_hero_orientation(game, game->map[i][j]);
-				game->player.player_x = (float)i * GRID_LEN + GRID_LEN / 2;
-				game->player.player_y = (float)j * GRID_LEN + GRID_LEN / 2;
+				game->player.player_x = i;
+				game->player.player_y = j;
 				return;
 			}
 		}
 	}
 	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
-}
-
-void init_player(t_data *data)
-{
-	data->player.player_x = 11;
-	data->player.player_y = 26;
-	data->player.player_dir_x = -1;
-	data->player.player_dir_y = 0;
-	data->player.plane_x = 0;
-	data->player.plane_y = 0.66;
 }
 
 void init_graphics(t_data *game)
@@ -102,50 +100,4 @@ void init_graphics(t_data *game)
 	game->rays = ft_calloc(1, sizeof(t_raycasting));
 	if (!game->rays)
 		error_msg(game, "Failed malloc on rays\n", EXIT_FAILURE);	
-}
-
-void	render_minimap(t_data *data)
-{
-	int		color;
-	int		pixel_pos;
-	char	c;
-
-	size_t i = 0;
-	size_t j = 0;
-	int x = 0;
-	int y = 0;
-	while (i < 14)
-	{
-		if (i >= data->map_rows || data->map[i] == NULL)
-			continue;
-		j = 0;
-		while (j < ft_strlen(data->map[i]))
-		{
-			if (j >= data->map_columns)
-				break;
-			if (data->map[i][j] == '1')
-				color = 0xFFFFFF;
-			else
-				color = 0x0000FF;
-			c = data->map[i][j];
-			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-				color = 0x00FF00;
-			x = 0;
-			while (x < TILE_SIZE)
-			{
-				y = 0;
-				while (y < TILE_SIZE)
-				{
-					pixel_pos = (i * TILE_SIZE + y) * (data->size_line / 4)
-						+ (j * TILE_SIZE + x);
-					if (pixel_pos >= 0 && pixel_pos < (data->size_line * WIN_HEIGHT / 4))
-						data->img_data[pixel_pos] = color;
-					y++;
-				}
-				x++;
-			}
-			j++;
-		}
-		i++;
-	}
 }

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 /*	Calculate the exact position on the wall hit by the ray
 	Calculate the x coordinate on the texture
 	Calculate the range of pixels to draw on the screen*/
@@ -58,7 +59,7 @@ int set_dir(t_data *data)
 		else
 			dir = WEST;
 	}
-	return dir;
+	return (dir);
 }
 void draw_game(t_data *data, int x)
 {
@@ -124,8 +125,8 @@ void	load_texture_to_buffer(t_data *data, int index, char *file_path)
 
 void	init_textures(t_data *data)
 {
-	load_texture_to_buffer(data, NORTH, "textures/no.xpm");
-	load_texture_to_buffer(data, SOUTH, "textures/so.xpm");
-	load_texture_to_buffer(data, EAST, "textures/ea.xpm");
-	load_texture_to_buffer(data, WEST, "textures/we.xpm");
+	load_texture_to_buffer(data, NORTH, data->no);
+	load_texture_to_buffer(data, SOUTH, data->so);
+	load_texture_to_buffer(data, EAST, data->ea);
+	load_texture_to_buffer(data, WEST, data->we);
 }

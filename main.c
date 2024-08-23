@@ -37,16 +37,15 @@ int close_window(t_data *game)
 {
 	if (game)
 	{
-			if (game->fd > 0)
-	{
-		get_next_line(game->fd, 1);
-		close(game->fd);
-		game->fd = -1;
-	}
-	
-	clean_up(game);
-	clean_mlx(game);
-	free(game);
+		if (game->fd > 0)
+		{
+			get_next_line(game->fd, 1);
+			close(game->fd);
+			game->fd = -1;
+		}
+		clean_up(game);
+		clean_mlx(game);
+		free(game);
 	}
 
 	exit(EXIT_SUCCESS);
@@ -66,8 +65,7 @@ int main(int argc, char const **argv)
 	ft_bzero(&data, sizeof(t_data));
 	init_game_input(&data);
 	parse_file(&data, argv[1]);
-	//init_hero_pos(&data);
-	init_player(&data);
+	init_hero_pos(&data);
 	init_graphics(&data);
 	init_textures(&data);
 	mlx_hook(data.win_ptr, 2, 1L << 0, handle_keypress, &data);
@@ -75,5 +73,4 @@ int main(int argc, char const **argv)
 	mlx_loop_hook(data.mlx_ptr, render_loop, &data);
 	mlx_loop(data.mlx_ptr);
 	return (0);
-
 }

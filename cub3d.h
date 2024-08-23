@@ -63,15 +63,15 @@ typedef struct s_raycasting
 	double	camera_x;
 	double	ray_dir_x;
 	double	ray_dir_y;
-	size_t		map_x;
-	size_t map_y;
+	size_t	map_x;
+	size_t 	map_y;
 	double	side_dist_x;
 	double	side_dist_y;
 	double	delta_dist_x;
 	double	delta_dist_y;
 	double	perp_wall_dist;
-	size_t step_x;
-	size_t step_y;
+	size_t 	step_x;
+	size_t 	step_y;
 	int		hit;
 	int		side;
 	int		line_height;
@@ -89,19 +89,19 @@ typedef struct s_player
 
 typedef struct s_textures
 {
-	int *image_texture_data;
-	int width;
-	int height;
-	int bpp;
-	int size_line;
-	int endian;
-	int y;
-	int tex_x;
-	double pos;
-	double step;
-	double wall_x;
-	int draw_start;
-	int draw_end;
+	int		*image_texture_data;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+	int		y;
+	int		tex_x;
+	double	pos;
+	double	step;
+	double	wall_x;
+	int		draw_start;
+	int		draw_end;
 
 } t_textures;
 
@@ -111,31 +111,27 @@ typedef struct s_data
 	void			*win_ptr;
 	void			*img_ptr;
 	int				*img_data;
-	// parsing
 	char			**map;
 	int				fd;
 	char			*no;
 	char			*so;
-	char *we;
-	char *ea;
-	char *line;
-	char *line_tmp;
-	size_t map_columns;
-	size_t map_rows;
-	int ceiling_color;
-	int floor_color;
-	int hero;
-	char hero_orientation; // N S E OR W
-	size_t row_start_position; // i
-	size_t col_start_position; // j
-	float pos_angle;
-	int *texture_buffer[4];
-	int bpp;
+	char 			*we;
+	char 			*ea;
+	char 			*line;
+	char 			*line_tmp;
+	size_t 			map_columns;
+	size_t 			map_rows;
+	int 			ceiling_color;
+	int 			floor_color;
+	int 			hero;
+	float 			pos_angle;
+	int 			*texture_buffer[4];
+	int 			bpp;
 	int				endian;
 	int				size_line;
 	t_raycasting	*rays;
 	t_player		player;
-	t_textures texture;
+	t_textures 		texture;
 }	t_data;
 
 
