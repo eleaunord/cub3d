@@ -6,7 +6,7 @@
 /*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 11:15:27 by jdecorte          #+#    #+#             */
-/*   Updated: 2024/08/25 16:42:35 by eleroty          ###   ########.fr       */
+/*   Updated: 2024/08/25 18:29:21 by eleroty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ char	*get_next_line(int fd, int n);
 char	*ft_buffertrim(char *buffer);
 char	*ft_getline(char *buffer);
 char	*ft_readline(int fd, char *buffer);
+char	*free_buff(char *buffer);
+char	*free_all_buff(char *buffer, char *read_buff);
 
 #endif

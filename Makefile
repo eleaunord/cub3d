@@ -26,7 +26,8 @@ LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 GNL_PATH = ./get_next_line
-GNL_SRCS = $(GNL_PATH)/get_next_line.c
+GNL_SRCS = $(GNL_PATH)/get_next_line.c \
+           $(GNL_PATH)/free_buffers.c
 
 LIBMATH_FLAGS = -lm
 

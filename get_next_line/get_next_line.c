@@ -6,11 +6,12 @@
 /*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:38:12 by rrisseli          #+#    #+#             */
-/*   Updated: 2024/08/25 16:48:10 by eleroty          ###   ########.fr       */
+/*   Updated: 2024/08/25 18:38:38 by eleroty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "get_next_line.h"
 
 char	*get_next_line(int fd, int n)
 {
@@ -51,16 +52,10 @@ char	*ft_buffertrim(char *buffer)
 	while (buffer[buffer_i] != '\n' && buffer[buffer_i])
 		buffer_i++;
 	if (!buffer[buffer_i])
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free_buff(buffer));
 	line = ft_calloc(ft_strlen(buffer) - buffer_i, sizeof(char));
 	if (!line)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free_buff(buffer));
 	buffer_i++;
 	while (buffer[buffer_i])
 		line[line_i++] = buffer[buffer_i++];
@@ -75,7 +70,7 @@ char	*ft_getline(char *buffer)
 {
 	char	*line;
 	size_t	i;
-    size_t	j;
+	size_t	j;
 
 	i = 0;
 	if (!buffer || !buffer[0])
@@ -85,12 +80,12 @@ char	*ft_getline(char *buffer)
 	line = ft_calloc(i + 2, sizeof(char));
 	if (!line)
 		return (NULL);
-    j = 0;
+	j = 0;
 	while (j < i)
-    {
-        line[j] = buffer[j];
-        j++;
-    }
+	{
+		line[j] = buffer[j];
+		j++;
+	}
 	if (buffer[i] == '\n')
 		line[i] = '\n';
 	return (line);
@@ -111,29 +106,19 @@ char	*ft_readline(int fd, char *buffer)
 		buffer = ft_calloc(1, sizeof(char));
 	read_buffer = ft_calloc(BUFFER_SIZE1 + 1, sizeof(char));
 	if (!read_buffer)
-	{
-		free(buffer);
-		return (NULL);
-	}
+		return (free_buff(buffer));
 	bytes_read = 1;
 	while (!ft_strchr(buffer, '\n') && bytes_read > 0)
 	{
 		bytes_read = read(fd, read_buffer, BUFFER_SIZE1);
 		if (bytes_read == -1)
-		{
-			free(read_buffer);
-			free(buffer);
-			return (NULL);
-		}
+			return (free_all_buff(buffer, read_buffer));
 		read_buffer[bytes_read] = '\0';
 		temp_buffer = ft_strjoin(buffer, read_buffer);
 		free(buffer);
 		buffer = temp_buffer;
 		if (!buffer)
-		{
-			free(read_buffer);
-			return (NULL);
-		}
+			return (free_buff(read_buffer));
 	}
 	free(read_buffer);
 	return (buffer);

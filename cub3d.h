@@ -1,17 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+        
-	+:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+      
-	+#+        */
-/*                                                +#+#+#+#+#+  
-	+#+           */
-/*   Created: 2024/07/27 00:04:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/27 00:04:54 by marvin           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -147,7 +133,7 @@ void	init_textures(t_data *data);
 void	free_all(t_data *data);
 void	draw_game(t_data *data, int x);
 void	calculate_for_textures(t_data *data);
-int		set_dir(t_data *data);
+int	set_dir(t_data *data);
 
 // parsing
 int	error_msg(t_data *game, char *mess, int num);
