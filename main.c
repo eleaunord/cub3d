@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 00:04:35 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/27 00:04:35 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/25 16:23:56 by eleroty           #+#    #+#             */
+/*   Updated: 2024/08/25 16:23:56 by eleroty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//valgrind --leak-check=full --show-leak-kinds=all ./executable description.cub 2> leak.log
-
-void render_frame(t_data *data)
+void	render_frame(t_data *data)
 {
-	int x = 0;
+	int	x;
+
+	x = 0;
 	while (x < WIN_WIDTH)
 	{
 		cast_rays(data, x);
@@ -25,7 +25,7 @@ void render_frame(t_data *data)
 	}
 }
 
-int render_loop(t_data *data)
+int	render_loop(t_data *data)
 {
 	mlx_clear_window(data->mlx_ptr, data->win_ptr);
 	render_frame(data);
@@ -33,7 +33,7 @@ int render_loop(t_data *data)
 	return (0);
 }
 
-int close_window(t_data *game)
+int	close_window(t_data *game)
 {
 	if (game)
 	{
@@ -47,15 +47,13 @@ int close_window(t_data *game)
 		clean_mlx(game);
 		free(game);
 	}
-
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-
-int main(int argc, char const **argv)
+int	main(int argc, char const **argv)
 {
-	t_data		data;
+	t_data	data;
 
 	if (check_args(argc, argv) != true)
 	{

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_player.c                                      :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 13:27:58 by marvin            #+#    #+#             */
-/*   Updated: 2024/07/30 13:27:58 by marvin           ###   ########.fr       */
+/*   Created: 2024/08/25 16:23:02 by eleroty           #+#    #+#             */
+/*   Updated: 2024/08/25 16:23:02 by eleroty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void init_game_input(t_data *game)
+void	init_game_input(t_data *game)
 {
 	game->we = NULL;
 	game->ea = NULL;
@@ -26,42 +26,59 @@ void init_game_input(t_data *game)
 	game->fd = -1;
 	game->hero = 0;
 }
-static void set_hero_orientation(t_data *data, char c)
+
+static void	set_player_plane(t_player *player, char c)
 {
 	if (c == 'N')
 	{
-		data->player.player_dir_y = 0;
-		data->player.player_dir_x = -1;
-		data->player.plane_y = 0.66;
-		data->player.plane_x = 0;
+		player->plane_y = 0.66;
+		player->plane_x = 0;
 	}
 	else if (c == 'S')
 	{
-		data->player.player_dir_y = 0;
-		data->player.player_dir_x = 1;
-		data->player.plane_y = -0.66;
-		data->player.plane_x = 0;
+		player->plane_y = -0.66;
+		player->plane_x = 0;
 	}
 	else if (c == 'E')
 	{
-		data->player.player_dir_y = 1;
-		data->player.player_dir_x = 0;
-		data->player.plane_y = 0;
-		data->player.plane_x = 0.66;
+		player->plane_y = 0;
+		player->plane_x = 0.66;
 	}
 	else if (c == 'W')
 	{
-		data->player.player_dir_y = -1;
-		data->player.player_dir_x = 0;
-		data->player.plane_y = 0;
-		data->player.plane_x = -0.66;
+		player->plane_y = 0;
+		player->plane_x = -0.66;
 	}
 }
 
-void init_hero_pos(t_data *game)
+static void	set_player_direction(t_player *player, char c)
 {
-	size_t i;
-	size_t j;
+	if (c == 'N')
+	{
+		player->player_dir_y = 0;
+		player->player_dir_x = -1;
+	}
+	else if (c == 'S')
+	{
+		player->player_dir_y = 0;
+		player->player_dir_x = 1;
+	}
+	else if (c == 'E')
+	{
+		player->player_dir_y = 1;
+		player->player_dir_x = 0;
+	}
+	else if (c == 'W')
+	{
+		player->player_dir_y = -1;
+		player->player_dir_x = 0;
+	}
+}
+
+void	init_hero_pos(t_data *game)
+{
+	size_t	i;
+	size_t	j;
 
 	i = -1;
 	while (++i < game->map_rows)
@@ -69,35 +86,37 @@ void init_hero_pos(t_data *game)
 		j = -1;
 		while (++j < game->map_columns)
 		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
-				game->map[i][j] == 'E' || game->map[i][j] == 'W')
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
-				set_hero_orientation(game, game->map[i][j]);
+				set_player_direction(&game->player, game->map[i][j]);
+				set_player_plane(&game->player, game->map[i][j]);
 				game->player.player_x = i;
 				game->player.player_y = j;
-				return;
+				return ;
 			}
 		}
 	}
 	error_msg(game, "Hero not found in map.\n", EXIT_FAILURE);
 }
 
-void init_graphics(t_data *game)
+void	init_graphics(t_data *game)
 {
 	game->mlx_ptr = mlx_init();
 	if (!game->mlx_ptr)
 		error_msg(game, "Error initializing mlx\n", EXIT_FAILURE);
-	game->win_ptr = mlx_new_window(game->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+	game->win_ptr = mlx_new_window(game->mlx_ptr, WIN_WIDTH, WIN_HEIGHT,
+			"Cub3D");
 	if (!game->win_ptr)
 		error_msg(game, "Error creating window\n", EXIT_FAILURE);
 	game->img_ptr = mlx_new_image(game->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	if (!game->img_ptr)
 		error_msg(game, "Error on mlx new image\n", EXIT_FAILURE);
 	game->img_data = (int *)mlx_get_data_addr(game->img_ptr, &game->bpp,
-											  &game->size_line, &game->endian);
+			&game->size_line, &game->endian);
 	if (!game->img_data)
 		error_msg(game, "Error on mlx get data addr\n", EXIT_FAILURE);
 	game->rays = ft_calloc(1, sizeof(t_raycasting));
 	if (!game->rays)
-		error_msg(game, "Failed malloc on rays\n", EXIT_FAILURE);	
+		error_msg(game, "Failed malloc on rays\n", EXIT_FAILURE);
 }

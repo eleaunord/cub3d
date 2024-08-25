@@ -40,10 +40,12 @@ SRCS = main.c \
 	parsing/utils.c \
 	parsing/process_map.c \
 	parsing/fill_map.c \
+	parsing/check_walls.c \
 	raycasting.c \
 	move_player.c \
 	init.c \
 	textures.c \
+	draw_game.c \
 	$(GNL_SRCS) \
 
 ## object files
