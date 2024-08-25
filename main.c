@@ -45,7 +45,7 @@ int	close_window(t_data *game)
 		}
 		clean_up(game);
 		clean_mlx(game);
-		free(game);
+		//free(game);
 	}
 	exit(EXIT_SUCCESS);
 	return (0);
