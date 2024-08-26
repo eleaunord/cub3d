@@ -16,8 +16,6 @@
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-# define MOVE_SPEED 0.05
-# define ROT_SPEED 0.05
 # define TEXTURE_SIZE 64
 # define NORTH 0
 # define SOUTH 1
@@ -26,7 +24,7 @@
 
 # define TILE_SIZE 8
 # define FOV 60 * (M_PI / 180)
-# define MOVE_SPEED 0.05
+# define MOVE_SPEED 0.07
 # define ROT_SPEED 0.05
 
 # define PI 3.1415926535
@@ -136,14 +134,14 @@ void	calculate_for_textures(t_data *data);
 int	set_dir(t_data *data);
 
 // parsing
-int	error_msg(t_data *game, char *mess, int num);
+int		error_msg(t_data *game, char *mess, int num);
 bool	check_args(int argc, const char **argv);
 bool	is_already_loaded(t_data *game, t_identifier elem);
-int	is_xpm(char *path);
+int		is_xpm(char *path);
 void	get_color_code(t_identifier color, char *line, t_data *game);
 void	get_path_to_texture(t_identifier direction, char *line, t_data *game);
 void	parse_file(t_data *game, const char *file);
-int	is_space(char c);
+int		is_space(char c);
 bool	is_empty_line(char *line);
 void	process_map(t_data *game, const char *file);
 bool	is_valid_char(t_data *game, char c);
@@ -154,8 +152,8 @@ void	fill_map(t_data *game, char *line);
 void	check_map_walls(t_data *game);
 
 // init
-// void init_mlx(t_data *data);
-int	close_window(t_data *game);
+ void init_mlx(t_data *data);
+int		close_window(t_data *game);
 void	init_player(t_data *data);
 void	init_hero_pos(t_data *game);
 void	init_game_input(t_data *game);
