@@ -66,7 +66,6 @@ void	clean_up(t_data *game)
 	}
 	if (game->map)
 		free_map(game);
-	// free texture buffer
 }
 
 int	error_msg(t_data *game, char *mess, int status)

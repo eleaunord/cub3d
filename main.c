@@ -44,13 +44,11 @@ int	close_window(t_data *game)
 			game->fd = -1;
 		}
 		clean_up(game);
-		clean_mlx(game);
 		free(game->texture_buffer[0]);
 		free(game->texture_buffer[1]);
 		free(game->texture_buffer[2]);
 		free(game->texture_buffer[3]);
-		mlx_destroy_display(game->mlx_ptr);
-		free(game->mlx_ptr);
+		clean_mlx(game);
 	}
 	exit(EXIT_SUCCESS);
 	return (0);
