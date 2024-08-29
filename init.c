@@ -51,27 +51,29 @@ static void	set_player_plane(t_player *player, char c)
 	}
 }
 
-static void	set_player_direction(t_player *player, char c)
+static void	set_player_direction(t_data *game, char c, int i, int j)
 {
+	game->player.player_x = i;
+	game->player.player_y = j;
 	if (c == 'N')
 	{
-		player->player_dir_y = 0;
-		player->player_dir_x = -1;
+		game->player.player_dir_y = 0;
+		game->player.player_dir_x = -1;
 	}
 	else if (c == 'S')
 	{
-		player->player_dir_y = 0;
-		player->player_dir_x = 1;
+		game->player.player_dir_y = 0;
+		game->player.player_dir_x = 1;
 	}
 	else if (c == 'E')
 	{
-		player->player_dir_y = 1;
-		player->player_dir_x = 0;
+		game->player.player_dir_y = 1;
+		game->player.player_dir_x = 0;
 	}
 	else if (c == 'W')
 	{
-		player->player_dir_y = -1;
-		player->player_dir_x = 0;
+		game->player.player_dir_y = -1;
+		game->player.player_dir_x = 0;
 	}
 }
 
@@ -87,10 +89,8 @@ void	init_hero_pos(t_data *game)
 			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
 				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
-				set_player_direction(&game->player, game->map[i][j]);
+				set_player_direction(game, game->map[i][j], i, j);
 				set_player_plane(&game->player, game->map[i][j]);
-				game->player.player_x = i;
-				game->player.player_y = j;
 				if (game->map[i + 1] && game->map[i + 1][j] != '1')
 					game->player.player_x += 0.1;
 				else

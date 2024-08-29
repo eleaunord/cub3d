@@ -66,17 +66,30 @@ int	set_dir(t_data *data)
 	return (dir);
 }
 
+void	if_invalid_xpm(t_data *data, int index)
+{
+	printf("%d\n", index);
+	while (index >= 0)
+	{
+		printf("%d\n", index);
+		free(data->texture_buffer[index]);
+		index--;
+	}
+	free(data->rays);
+	clean_up(data);
+	clean_mlx(data);
+	exit (0);
+}
+
 void	load_texture_to_buffer(t_data *data, int index, char *file_path)
 {
-	int		width;
-	int		height;
-	void	*img_texture_ptr;
-	int		x;
-
-	img_texture_ptr = mlx_xpm_file_to_image(data->mlx_ptr, file_path, &width,
-			&height);
+	int (width);
+	int (height);
+	int (x);
+	void *(img_texture_ptr) = mlx_xpm_file_to_image(data->mlx_ptr,
+			file_path, &width, &height);
 	if (!img_texture_ptr)
-		error_msg(data, "Invalid XPM file\n", EXIT_FAILURE);
+		if_invalid_xpm(data, index);
 	data->texture.image_texture_data = (int *)mlx_get_data_addr(img_texture_ptr,
 			&data->texture.bpp, &data->texture.size_line,
 			&data->texture.endian);

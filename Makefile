@@ -44,6 +44,7 @@ SRCS = main.c \
 	parsing/check_walls.c \
 	raycasting.c \
 	move_player.c \
+	rotate_player.c \
 	init.c \
 	textures.c \
 	draw_game.c \

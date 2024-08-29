@@ -135,14 +135,16 @@ typedef struct s_data
 void	init_map(t_data *data);
 void	init_mlx(t_data *data);
 void	init_player(t_data *data);
-int	handle_keypress(int keycode, t_data *data);
+int		handle_keypress(int keycode, t_data *data);
+void	rotate_right(t_data *data);
+void	rotate_left(t_data *data);
 void	draw_game(t_data *data, int x);
 void	cast_rays(t_data *data, int x);
 void	init_textures(t_data *data);
 void	free_all(t_data *data);
 void	draw_game(t_data *data, int x);
 void	calculate_for_textures(t_data *data);
-int	set_dir(t_data *data);
+int		set_dir(t_data *data);
 
 // parsing
 int		error_msg(t_data *game, char *mess, int num);
