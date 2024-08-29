@@ -75,6 +75,8 @@ void	load_texture_to_buffer(t_data *data, int index, char *file_path)
 
 	img_texture_ptr = mlx_xpm_file_to_image(data->mlx_ptr, file_path, &width,
 			&height);
+	if (!img_texture_ptr)
+		error_msg(data, "Invalid XPM file\n", EXIT_FAILURE);
 	data->texture.image_texture_data = (int *)mlx_get_data_addr(img_texture_ptr,
 			&data->texture.bpp, &data->texture.size_line,
 			&data->texture.endian);

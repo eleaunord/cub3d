@@ -77,10 +77,8 @@ static void	set_player_direction(t_player *player, char c)
 
 void	init_hero_pos(t_data *game)
 {
-	size_t	i;
-	size_t	j;
-
-	i = -1;
+	size_t (i) = -1;
+	size_t (j) = -1;
 	while (++i < game->map_rows)
 	{
 		j = -1;
@@ -93,6 +91,14 @@ void	init_hero_pos(t_data *game)
 				set_player_plane(&game->player, game->map[i][j]);
 				game->player.player_x = i;
 				game->player.player_y = j;
+				if (game->map[i + 1] && game->map[i + 1][j] != '1')
+					game->player.player_x += 0.1;
+				else
+					game->player.player_y += 0.1;
+				if ((game->map[i][j] == 'E' || game->map[i][j] == 'W')
+					&& game->map[i][j - 1] == '1')
+					game->player.player_y += 0.2;
+				game->map[i][j] = '0';
 				return ;
 			}
 		}

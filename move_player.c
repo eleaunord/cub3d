@@ -52,7 +52,6 @@ void	move_right(t_data *data)
 		data->player.player_y += data->player.plane_y * MOVE_SPEED;
 }
 
-
 void	rotate_right(t_data *data)
 {
 	double (old_player_dir_x) = data->player.player_dir_x;

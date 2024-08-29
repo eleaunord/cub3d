@@ -37,21 +37,15 @@ int	close_window(t_data *game)
 {
 	if (game)
 	{
-		if (game->fd > 0)
-		{
-			get_next_line(game->fd, 1);
-			close(game->fd);
-			game->fd = -1;
-		}
 		clean_up(game);
+		free(game->rays);
 		free(game->texture_buffer[0]);
 		free(game->texture_buffer[1]);
 		free(game->texture_buffer[2]);
 		free(game->texture_buffer[3]);
 		clean_mlx(game);
 	}
-	exit(EXIT_SUCCESS);
-	return (0);
+	exit (0);
 }
 
 int	main(int argc, char const **argv)

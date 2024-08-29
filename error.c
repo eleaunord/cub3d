@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleroty <eleroty@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 16:12:09 by eleroty           #+#    #+#             */
-/*   Updated: 2024/08/25 19:17:06 by eleroty          ###   ########.fr       */
+/*   Updated: 2024/08/29 03:07:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,17 @@ void	free_map(t_data *game)
 	}
 }
 
-void clean_mlx(t_data *game)
+void	clean_mlx(t_data *game)
 {
-    if (!game)
-        return;
-    if (game->img_ptr)
-        mlx_destroy_image(game->mlx_ptr, game->img_ptr);
-    if (game->win_ptr)
-        mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	if (game->img_ptr)
+		mlx_destroy_image(game->mlx_ptr, game->img_ptr);
+	if (game->win_ptr)
+		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	if (game->mlx_ptr)
+	{
+		mlx_destroy_display(game->mlx_ptr);
+		free(game->mlx_ptr);
+	}
 }
 
 void	clean_up(t_data *game)

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/29 03:12:19 by marvin            #+#    #+#             */
+/*   Updated: 2024/08/29 03:12:19 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
@@ -152,7 +163,7 @@ void	fill_map(t_data *game, char *line);
 void	check_map_walls(t_data *game);
 
 // init
- void init_mlx(t_data *data);
+void	init_mlx(t_data *data);
 int		close_window(t_data *game);
 void	init_player(t_data *data);
 void	init_hero_pos(t_data *game);
