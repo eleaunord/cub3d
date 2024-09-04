@@ -14,47 +14,16 @@
 
 void	init_var_rays(t_data *data, int x)
 {
-	data->rays->camera_x = 2 * x / (double)WIN_WIDTH - 1;
+	data->rays->pos_col_x = 2 * x / (double)WIN_WIDTH - 1;
 	data->rays->ray_dir_x = data->player.player_dir_x + data->player.plane_x
-		* data->rays->camera_x;
+		* data->rays->pos_col_x;
 	data->rays->ray_dir_y = data->player.player_dir_y + data->player.plane_y
-		* data->rays->camera_x;
+		* data->rays->pos_col_x;
 	data->rays->map_x = (int)data->player.player_x;
 	data->rays->map_y = (int)data->player.player_y;
 	data->rays->delta_dist_x = fabs(1 / data->rays->ray_dir_x);
 	data->rays->delta_dist_y = fabs(1 / data->rays->ray_dir_y);
 	data->rays->hit = 0;
-	data->rays->step_x = 0;
-	data->rays->step_y = 0;
-}
-
-void	check_hit(t_data *data)
-{
-	while (data->rays->hit == 0)
-	{
-		if (data->rays->side_dist_x < data->rays->side_dist_y)
-		{
-			data->rays->side_dist_x += data->rays->delta_dist_x;
-			data->rays->map_x += data->rays->step_x;
-			data->rays->side = 0;
-		}
-		else
-		{
-			data->rays->side_dist_y += data->rays->delta_dist_y;
-			data->rays->map_y += data->rays->step_y;
-			data->rays->side = 1;
-		}
-		if (data->rays->map_x >= data->map_rows
-			|| data->rays->map_y >= data->map_columns)
-		{
-			data->rays->hit = -1;
-			break ;
-		}
-		if (data->map[data->rays->map_x][data->rays->map_y] == '1')
-		{
-			data->rays->hit = 1;
-		}
-	}
 }
 
 void	calculate_step_and_side(t_data *data)
@@ -82,6 +51,33 @@ void	calculate_step_and_side(t_data *data)
 		data->rays->step_y = 1;
 		data->rays->side_dist_y = (data->rays->map_y + 1.0
 				- data->player.player_y) * data->rays->delta_dist_y;
+	}
+}
+
+void	check_hit(t_data *data)
+{
+	while (data->rays->hit == 0)
+	{
+		if (data->rays->side_dist_x < data->rays->side_dist_y)
+		{
+			data->rays->side_dist_x += data->rays->delta_dist_x;
+			data->rays->map_x += data->rays->step_x;
+			data->rays->side = 0;
+		}
+		else
+		{
+			data->rays->side_dist_y += data->rays->delta_dist_y;
+			data->rays->map_y += data->rays->step_y;
+			data->rays->side = 1;
+		}
+		if (data->rays->map_x >= data->map_rows
+			|| data->rays->map_y >= data->map_columns)
+		{
+			data->rays->hit = -1;
+			break ;
+		}
+		if (data->map[data->rays->map_x][data->rays->map_y] == '1')
+			data->rays->hit = 1;
 	}
 }
 

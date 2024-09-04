@@ -38,11 +38,6 @@
 # define MOVE_SPEED 0.07
 # define ROT_SPEED 0.05
 
-# define PI 3.1415926535
-# define PI_DOUBLE 6.2831853071
-# define PI_HALF 1.5707963267
-# define PI_THREE_HALFS 4.7123889803
-
 # define GRID_LEN 64
 // for parsing
 typedef enum s_identifier
@@ -57,7 +52,7 @@ typedef enum s_identifier
 
 typedef struct s_raycasting
 {
-	double camera_x;
+	double pos_col_x;
 	double ray_dir_x;
 	double ray_dir_y;
 	size_t map_x;
