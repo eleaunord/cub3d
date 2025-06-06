@@ -1,6 +1,8 @@
-# 42-cub3D – Our First RayCaster
+# 🕹️  42-cub3D – Our First RayCaster
 
-## Project Overview
+*The project was developed collaboratively by Ruddy Russelin (rrisseli) and Éléonore Roty (eleroty).*
+
+## 📌 Project Overview
 
 **cub3D** is a raycasting-based 3D renderer inspired by *Wolfenstein 3D*. The goal is to simulate a first-person perspective in a 2D maze using math, vectors, and digital graphics via MiniLibX. This project combines low-level C programming with fundamental graphics and math concepts.
 
@@ -8,7 +10,7 @@
 
 ---
 
-## What we Learned
+## 🧠 What we Learned
 
 ### Raycasting Fundamentals
 
@@ -102,7 +104,7 @@ According to the project spec:
 
 ---
 
-## 🧠 What This Project Taught Us
+## 📚 What This Project Taught Us
 
 * Deep understanding of **2D vectors**, **trigonometry**, and **coordinate systems**.
 * How to use **math** and **logic** to simulate a 3D environment in a 2D grid.
